@@ -6,18 +6,21 @@
     <string name="bluetooth_is_not_supported">Bluetooth is not supported.</string>
     <string name="bluetooth_is_not_working">Bluetooth is not working.</string>
 
-    <!-- MainActivity メニュー用 -->
+    <!-- for the menu of MainActivity -->
     <string name="search">Search</string>
 
-    <!-- MainActivity ラベル用 -->
+    <!-- for the label of MainActivity -->
     <string name="device_name">Device Name : </string>
     <string name="device_address">Device Address : </string>
 
-    <!-- DeviceListActivity トースト用 -->
+    <!-- for the toast of DeviceListActivity -->
     <string name="unknown_device">Unknown device</string>
 
-    <!-- DeviceListActivity メニュー用 -->
+    <!-- for the menu of DeviceListActivity -->
     <string name="scan">Scan</string>
     <string name="stop">Stop</string>
+
+    <string name="connect">Connect</string>
+    <string name="disconnect">Disconnect</string>
 
 </resources>
