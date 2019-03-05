@@ -20,7 +20,19 @@
     <string name="chara1_notify">キャラ１(通知) : </string>
     <string name="hello">ハロー</string>
     <string name="world">ワールド</string>
-
+    <string name="getConfig">設定受信</string>
+    <string name="setConfig">設定送信</string>
+    <string name="smartpad_name">デバイス名: </string>
+    <string name="ip_address">IPアドレス: </string>
+    <string name="port_number">ポート番号: </string>
+    <string name="deviceStart">開始</string>
+    <string name="deviceStop">停止</string>
+    <string name="deviceSuspend">休止</string>
+    <string name="deviceResume">再開</string>
+    <string name="devicePoweroff">電源オフ</string>
+    <string name="deviceRestart">再起動</string>
+    <string name="deviceSettings">デバイス設定</string>
+    <string name="deviceOperations">デバイス操作</string>
     <!-- for the toast of DeviceListActivity -->
     <string name="unknown_device">不明なデバイス</string>
 

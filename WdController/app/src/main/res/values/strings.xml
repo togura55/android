@@ -20,7 +20,19 @@
     <string name="chara1_notify">Chara1(Notify) : </string>
     <string name="hello">Hello</string>
     <string name="world">World</string>
-
+    <string name="getConfig">Get Config </string>
+    <string name="setConfig">Set Config</string>
+    <string name="smartpad_name">Device Name: </string>
+    <string name="ip_address">IP Address: </string>
+    <string name="port_number">Port Number: </string>
+    <string name="deviceStart">Start</string>
+    <string name="deviceStop">Stop</string>
+    <string name="deviceSuspend">Suspend</string>
+    <string name="deviceResume">Resume</string>
+    <string name="devicePoweroff">Power Off</string>
+    <string name="deviceRestart">Restart</string>
+    <string name="deviceSettings">Device Settings</string>
+    <string name="deviceOperations">Device Operations</string>
     <!-- for the toast of DeviceListActivity -->
     <string name="unknown_device">Unknown device</string>
 

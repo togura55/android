@@ -160,7 +160,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     public void run()
                     {
                         // GUIアイテムへの反映
-                        ( (TextView)findViewById( R.id.textview_readchara1 ) ).setText( strChara );
+ //                       ( (TextView)findViewById( R.id.textview_readchara1 ) ).setText( strChara );
                     }
                 } );
                 return;
@@ -173,7 +173,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     public void run()
                     {
                         // GUIアイテムへの反映
-                        ( (TextView)findViewById( R.id.textview_readchara2 ) ).setText( strChara );
+        //                ( (TextView)findViewById( R.id.textview_readchara2 ) ).setText( strChara );
                     }
                 } );
                 return;
@@ -195,7 +195,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     public void run()
                     {
                         // GUIアイテムへの反映
-                        ( (TextView)findViewById( R.id.textview_notifychara1 ) ).setText( strChara );
+       //                 ( (TextView)findViewById( R.id.textview_notifychara1 ) ).setText( strChara );
                     }
                 } );
                 return;
@@ -239,16 +239,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mButton_Connect.setOnClickListener( this );
         mButton_Disconnect = (Button)findViewById( R.id.button_disconnect );
         mButton_Disconnect.setOnClickListener( this );
-        mButton_ReadChara1 = (Button)findViewById( R.id.button_readchara1 );
-        mButton_ReadChara1.setOnClickListener( this );
-        mButton_ReadChara2 = (Button)findViewById( R.id.button_readchara2 );
-        mButton_ReadChara2.setOnClickListener( this );
-        mCheckBox_NotifyChara1 = (CheckBox)findViewById( R.id.checkbox_notifychara1 );
-        mCheckBox_NotifyChara1.setOnClickListener( this );
-        mButton_WriteHello = (Button)findViewById( R.id.button_writehello );
-        mButton_WriteHello.setOnClickListener( this );
-        mButton_WriteWorld = (Button)findViewById( R.id.button_writeworld );
-        mButton_WriteWorld.setOnClickListener( this );
+      //  mButton_ReadChara1 = (Button)findViewById( R.id.button_readchara1 );
+      //  mButton_ReadChara1.setOnClickListener( this );
+      //  mButton_ReadChara2 = (Button)findViewById( R.id.button_readchara2 );
+      //  mButton_ReadChara2.setOnClickListener( this );
+      //  mCheckBox_NotifyChara1 = (CheckBox)findViewById( R.id.checkbox_notifychara1 );
+      //  mCheckBox_NotifyChara1.setOnClickListener( this );
+      //  mButton_WriteHello = (Button)findViewById( R.id.button_writehello );
+      //  mButton_WriteHello.setOnClickListener( this );
+      //  mButton_WriteWorld = (Button)findViewById( R.id.button_writeworld );
+      //  mButton_WriteWorld.setOnClickListener( this );
 
         // Android端末がBLEをサポートしてるかの確認
         if( !getPackageManager().hasSystemFeature( PackageManager.FEATURE_BLUETOOTH_LE ) )
@@ -293,35 +293,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             disconnect();            // disconnect
             return;
         }
-        if( mButton_ReadChara1.getId() == v.getId() )
-        {
-            readCharacteristic( UUID_SERVICE_PRIVATE, UUID_CHARACTERISTIC_PRIVATE1 );
-            return;
-        }
-        if( mButton_ReadChara2.getId() == v.getId() )
-        {
-            readCharacteristic( UUID_SERVICE_PRIVATE, UUID_CHARACTERISTIC_PRIVATE2 );
-            return;
-        }
-        if( mCheckBox_NotifyChara1.getId() == v.getId() )
-        {
-            setCharacteristicNotification( UUID_SERVICE_PRIVATE, UUID_CHARACTERISTIC_PRIVATE1, mCheckBox_NotifyChara1.isChecked() );
-            return;
-        }
-        if( mButton_WriteHello.getId() == v.getId() )
-        {
-            mButton_WriteHello.setEnabled( false );    // 書き込みボタンの無効化（連打対策）
-            mButton_WriteWorld.setEnabled( false );    // 書き込みボタンの無効化（連打対策）
-            writeCharacteristic( UUID_SERVICE_PRIVATE, UUID_CHARACTERISTIC_PRIVATE2, "Hello" );
-            return;
-        }
-        if( mButton_WriteWorld.getId() == v.getId() )
-        {
-            mButton_WriteHello.setEnabled( false );    // 書き込みボタンの無効化（連打対策）
-            mButton_WriteWorld.setEnabled( false );    // 書き込みボタンの無効化（連打対策）
-            writeCharacteristic( UUID_SERVICE_PRIVATE, UUID_CHARACTERISTIC_PRIVATE2, "World" );
-            return;
-        }
+//        if( mButton_ReadChara1.getId() == v.getId() )
+//        {
+//            readCharacteristic( UUID_SERVICE_PRIVATE, UUID_CHARACTERISTIC_PRIVATE1 );
+//            return;
+//        }
+//        if( mButton_ReadChara2.getId() == v.getId() )
+//        {
+//            readCharacteristic( UUID_SERVICE_PRIVATE, UUID_CHARACTERISTIC_PRIVATE2 );
+//            return;
+//        }
+//        if( mCheckBox_NotifyChara1.getId() == v.getId() )
+//        {
+//            setCharacteristicNotification( UUID_SERVICE_PRIVATE, UUID_CHARACTERISTIC_PRIVATE1, mCheckBox_NotifyChara1.isChecked() );
+//            return;
+//        }
+//        if( mButton_WriteHello.getId() == v.getId() )
+//        {
+//            mButton_WriteHello.setEnabled( false );    // 書き込みボタンの無効化（連打対策）
+//            mButton_WriteWorld.setEnabled( false );    // 書き込みボタンの無効化（連打対策）
+//            writeCharacteristic( UUID_SERVICE_PRIVATE, UUID_CHARACTERISTIC_PRIVATE2, "Hello" );
+//            return;
+//        }
+//        if( mButton_WriteWorld.getId() == v.getId() )
+//        {
+//            mButton_WriteHello.setEnabled( false );    // 書き込みボタンの無効化（連打対策）
+//            mButton_WriteWorld.setEnabled( false );    // 書き込みボタンの無効化（連打対策）
+//            writeCharacteristic( UUID_SERVICE_PRIVATE, UUID_CHARACTERISTIC_PRIVATE2, "World" );
+//            return;
+//        }
     }
 
     @Override
@@ -350,12 +350,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // GUIアイテムの有効無効の設定
         mButton_Connect.setEnabled( false );
         mButton_Disconnect.setEnabled( false );
-        mButton_ReadChara1.setEnabled( false );
-        mButton_ReadChara2.setEnabled( false );
-        mCheckBox_NotifyChara1.setChecked( false );
-        mCheckBox_NotifyChara1.setEnabled( false );
-        mButton_WriteHello.setEnabled( false );
-        mButton_WriteWorld.setEnabled( false );
+//        mButton_ReadChara1.setEnabled( false );
+//        mButton_ReadChara2.setEnabled( false );
+//        mCheckBox_NotifyChara1.setChecked( false );
+//        mCheckBox_NotifyChara1.setEnabled( false );
+//        mButton_WriteHello.setEnabled( false );
+//        mButton_WriteWorld.setEnabled( false );
 
         // デバイスアドレスが空でなければ、接続ボタンを有効にする。
         if( !mDeviceAddress.equals( "" ) )
@@ -432,9 +432,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 ( (TextView)findViewById( R.id.textview_devicename ) ).setText( strDeviceName );
                 ( (TextView)findViewById( R.id.textview_deviceaddress ) ).setText( mDeviceAddress );
-                ( (TextView)findViewById( R.id.textview_readchara1 ) ).setText( "" );
-                ( (TextView)findViewById( R.id.textview_readchara2 ) ).setText( "" );
-                ( (TextView)findViewById( R.id.textview_notifychara1 ) ).setText( "" );
+     //           ( (TextView)findViewById( R.id.textview_readchara1 ) ).setText( "" );
+     //           ( (TextView)findViewById( R.id.textview_readchara2 ) ).setText( "" );
+     //           ( (TextView)findViewById( R.id.textview_notifychara1 ) ).setText( "" );
                 break;
         }
         super.onActivityResult( requestCode, resultCode, data );
@@ -500,12 +500,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 接続ボタンのみ有効にする
         mButton_Connect.setEnabled( true );
         mButton_Disconnect.setEnabled( false );
-        mButton_ReadChara1.setEnabled( false );
-        mButton_ReadChara2.setEnabled( false );
-        mCheckBox_NotifyChara1.setChecked( false );
-        mCheckBox_NotifyChara1.setEnabled( false );
-        mButton_WriteHello.setEnabled( false );
-        mButton_WriteWorld.setEnabled( false );
+//        mButton_ReadChara1.setEnabled( false );
+//        mButton_ReadChara2.setEnabled( false );
+//        mCheckBox_NotifyChara1.setChecked( false );
+//        mCheckBox_NotifyChara1.setEnabled( false );
+//        mButton_WriteHello.setEnabled( false );
+//        mButton_WriteWorld.setEnabled( false );
     }
 
     // キャラクタリスティックの読み込み
