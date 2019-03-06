@@ -11,6 +11,7 @@
     <string name="search">検索</string>
 
     <!-- for labels in MainActivity -->
+    <string name="bluetooth_connection">Bluetooth接続</string>
     <string name="device_name">デバイス名 : </string>
     <string name="device_address">デバイスアドレス : </string>
     <string name="connect">接続</string>

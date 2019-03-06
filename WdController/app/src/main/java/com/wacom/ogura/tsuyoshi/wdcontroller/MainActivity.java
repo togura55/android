@@ -23,6 +23,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,6 +50,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private String        mDeviceAddress = "";    // デバイスアドレス
     private BluetoothGatt mBluetoothGatt = null;    // Gattサービスの検索、キャラスタリスティックの読み書き
 
+    private String mDefaultDeviceName = "Wacom Clipboard";
+    private String mDefaultIpAddress = "192.168.0.7";
+    private String mDefaultPortNumber = "1337";
+
     // GUI items
     private Button mButton_Connect;    // Connect button
     private Button mButton_Disconnect;    // Disconnect button
@@ -57,6 +62,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private CheckBox mCheckBox_NotifyChara1;    // キャラクタリスティック１の変更通知ON/OFFチェックボックス
     private Button   mButton_WriteHello;        // キャラクタリスティック２への「Hello」書き込みボタン
     private Button   mButton_WriteWorld;        // キャラクタリスティック２への「World」書き込みボタン
+
+    private EditText mEditText_DeviceName;
+    private EditText mEditText_IpAddress;
+    private EditText mEditText_PortNumber;
 
     // BluetoothGattコールバックオブジェクト
     private final BluetoothGattCallback mGattcallback = new BluetoothGattCallback()
@@ -94,11 +103,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     {
                         // GUIアイテムの有効無効の設定
                         // 読み込みボタンを無効にする（通知チェックボックスはチェック状態を維持。通知ONで切断した場合、再接続時に通知は再開するので）
-                        mButton_ReadChara1.setEnabled( false );
-                        mButton_ReadChara2.setEnabled( false );
-                        mCheckBox_NotifyChara1.setEnabled( false );
-                        mButton_WriteHello.setEnabled( false );
-                        mButton_WriteWorld.setEnabled( false );
+//                        mButton_ReadChara1.setEnabled( false );
+//                        mButton_ReadChara2.setEnabled( false );
+//                        mCheckBox_NotifyChara1.setEnabled( false );
+//                        mButton_WriteHello.setEnabled( false );
+//                        mButton_WriteWorld.setEnabled( false );
                     }
                 } );
                 return;
@@ -250,6 +259,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
       //  mButton_WriteWorld = (Button)findViewById( R.id.button_writeworld );
       //  mButton_WriteWorld.setOnClickListener( this );
 
+        mEditText_DeviceName = (EditText)findViewById( R.id.edit_deviceName );
+        mEditText_IpAddress = (EditText)findViewById( R.id.edit_ipAddress );
+        mEditText_PortNumber = (EditText)findViewById( R.id.edit_portNumber );
+
         // Android端末がBLEをサポートしてるかの確認
         if( !getPackageManager().hasSystemFeature( PackageManager.FEATURE_BLUETOOTH_LE ) )
         {
@@ -356,6 +369,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        mCheckBox_NotifyChara1.setEnabled( false );
 //        mButton_WriteHello.setEnabled( false );
 //        mButton_WriteWorld.setEnabled( false );
+
+        mEditText_DeviceName.setText(mDefaultDeviceName);
+        mEditText_IpAddress.setText(mDefaultIpAddress);
+        mEditText_PortNumber.setText(mDefaultPortNumber);
+
 
         // デバイスアドレスが空でなければ、接続ボタンを有効にする。
         if( !mDeviceAddress.equals( "" ) )

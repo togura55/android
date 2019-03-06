@@ -11,6 +11,7 @@
     <string name="search">Search</string>
 
     <!-- for labels in MainActivity -->
+    <string name="bluetooth_connection">Bluetooth Connection</string>
     <string name="device_name">Device Name : </string>
     <string name="device_address">Device Address : </string>
     <string name="connect">Connect</string>
