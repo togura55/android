@@ -44,7 +44,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 {
     // Constants（Bluetooth LE Gatt UUID）
     // Private Service
-    private static final UUID UUID_SERVICE_PRIVATE         = UUID.fromString( "FF6B1160-8FE6-11E7-ABC4-CEC278B6B50A" );
+//    private static final UUID UUID_SERVICE_PRIVATE         = UUID.fromString( "FF6B1160-8FE6-11E7-ABC4-CEC278B6B50A" );
+    private static final UUID UUID_SERVICE_PRIVATE         = UUID.fromString( "34B1CF4D-1069-4AD6-89B6-E161D79BE4D2" ); // for WdP1.1
+
     private static final UUID UUID_CHARACTERISTIC_PRIVATE1 = UUID.fromString( "FF6B1426-8FE6-11E7-ABC4-CEC278B6B50A" );
     private static final UUID UUID_CHARACTERISTIC_PRIVATE2 = UUID.fromString( "FF6B1548-8FE6-11E7-ABC4-CEC278B6B50A" );
     // for Notification
@@ -475,13 +477,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     {
         if( mButton_Connect.getId() == v.getId() )
         {
-            mButton_Connect.setEnabled( false );    // 接続ボタンの無効化（連打対策）
+            mButton_Connect.setEnabled( false );    // [接続]ボタンの無効化（連打対策）
             connect();            // connect
             return;
         }
         if( mButton_Disconnect.getId() == v.getId() )
         {
-            mButton_Disconnect.setEnabled( false );    // 切断ボタンの無効化（連打対策）
+            mButton_Disconnect.setEnabled( false );    // [切断]ボタンの無効化（連打対策）
             disconnect();            // disconnect
             return;
         }
@@ -560,13 +562,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mEditText_PortNumber.setText(mDefaultPortNumber);
 
 
-        // デバイスアドレスが空でなければ、接続ボタンを有効にする。
+        // デバイスアドレスが空でなければ、[接続]ボタンを有効にする。
         if( !mDeviceAddress.equals( "" ) )
         {
             mButton_Connect.setEnabled( true );
         }
 
-        // 接続ボタンを押す
+        // [接続]ボタンを押す
         mButton_Connect.callOnClick();
     }
 
@@ -707,7 +709,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mBluetoothGatt.close();
         mBluetoothGatt = null;
         // GUIアイテムの有効無効の設定
-        // 接続ボタンのみ有効にする
+        // [接続]ボタンのみ有効にする
         mButton_Connect.setEnabled( true );
         mButton_Disconnect.setEnabled( false );
 //        mButton_ReadChara1.setEnabled( false );
