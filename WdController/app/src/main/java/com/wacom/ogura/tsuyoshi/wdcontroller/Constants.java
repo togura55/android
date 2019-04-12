@@ -12,4 +12,5 @@ public interface Constants {
 
     public static final int MESSAGE_BT = 0;
     public static final int MESSAGE_TEMP = 2;
+
 }

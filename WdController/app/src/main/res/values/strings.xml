@@ -30,10 +30,12 @@
     <string name="deviceStop">Stop</string>
     <string name="deviceSuspend">Suspend</string>
     <string name="deviceResume">Resume</string>
-    <string name="devicePoweroff">Power Off</string>
+    <string name="devicePowerOff">Power Off</string>
     <string name="deviceRestart">Restart</string>
     <string name="deviceSettings">Device Settings</string>
     <string name="deviceOperations">Device Operations</string>
+    <string name="no_device_found">No devices found</string>
+
     <!-- for the toast of DeviceListActivity -->
     <string name="unknown_device">Unknown device</string>
 

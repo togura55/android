@@ -30,10 +30,13 @@
     <string name="deviceStop">停止</string>
     <string name="deviceSuspend">休止</string>
     <string name="deviceResume">再開</string>
-    <string name="devicePoweroff">電源オフ</string>
+    <string name="devicePowerOff">電源オフ</string>
     <string name="deviceRestart">再起動</string>
     <string name="deviceSettings">デバイス設定</string>
     <string name="deviceOperations">デバイス操作</string>
+
+    <string name="no_device_found">デバイスが見つかりません</string>
+
     <!-- for the toast of DeviceListActivity -->
     <string name="unknown_device">不明なデバイス</string>
 
