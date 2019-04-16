@@ -174,7 +174,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
 
             try {
-
+                // Create the socket
                 bluetoothSocket = mBluetoothDevice.createRfcommSocketToServiceRecord(
                         Constants.BT_UUID);
 
@@ -185,6 +185,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     }
 
                     try {
+                        // Connect to the created socket
                         bluetoothSocket.connect();
 
                         // send message to handler
@@ -208,13 +209,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //                        dataOutputStream.write(buf, 0, buf.length);
                         dataOutputStream.writeUTF(BtCommand);
                         dataOutputStream.flush();
-
+/*
                         while (true) {
 
                             if (Thread.interrupted()) {
                                 break;
                             }
- /*
+
                             // Read Response
 //                            int incomingBytes = inputStream.read(incomingBuff);
                             String incomingString = dataInputStream.readUTF(incomingBuff);
@@ -228,11 +229,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     Constants.MESSAGE_BT,
                                     s)
                                     .sendToTarget();
-*/
+
                             // Update again in a few seconds
                             Thread.sleep(3000);
                         }
-
+*/
                     } catch (IOException e) {
                         // connect will throw IOException immediately
                         // when it's disconnected.
