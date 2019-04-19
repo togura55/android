@@ -5,28 +5,24 @@ import android.Manifest;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
-import android.bluetooth.BluetoothSocket;
 import android.bluetooth.BluetoothGatt;
-//import android.bluetooth.BluetoothGattCallback;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.bluetooth.BluetoothGattDescriptor;
-//import android.bluetooth.BluetoothGattService;
 import android.bluetooth.BluetoothManager;
-//import android.bluetooth.BluetoothProfile;
+import android.bluetooth.BluetoothSocket;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-//import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,13 +30,15 @@ import android.widget.Toast;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.charset.StandardCharsets;
-//import java.util.Set;
-
-//import java.nio.ByteBuffer;
 import java.util.UUID;
+
+//import android.bluetooth.BluetoothGattCallback;
+//import android.bluetooth.BluetoothGattService;
+//import android.bluetooth.BluetoothProfile;
+//import android.widget.CheckBox;
+//import java.util.Set;
+import java.nio.ByteBuffer;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     // Constants（Bluetooth LE Gatt UUID）
@@ -196,19 +194,41 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 //                        Socket socket = new Socket("192.168.0.1",1755);
 
+                        OutputStream os = bluetoothSocket.getOutputStream();
                         dataInputStream = new DataInputStream(bluetoothSocket.getInputStream());
                         dataOutputStream = new DataOutputStream(bluetoothSocket.getOutputStream());
-
 //                        inputStream = bluetoothSocket.getInputStream();
 //                        outputStream = bluetoothSocket.getOutputStream();
 
                         // Send Command
 //                            String command = "GET:TEMP";   // <- RfCommのコマンド文字列
-//                           outputStream.write(BtCommand.getBytes());
+                        String command = "getversion";   // <- length = 10
+
+//                        outputStream.write(command.getBytes());
 //                        byte[] buf = BtCommand.getBytes("UTF-8");
-//                        dataOutputStream.write(buf, 0, buf.length);
-                        dataOutputStream.writeUTF(BtCommand);
-                        dataOutputStream.flush();
+//                        outputStream.write(buf, 0, buf.length);
+//                        outputStream.flush();
+
+                        if (command.length() > 0) {
+                            // Get the message bytes and tell the BluetoothChatService to write
+//                            byte[] send = command.getBytes();
+//                            dataOutputStream.write(send);
+                            int size = command.length();
+                            int intByteSize = 4;
+                            ByteBuffer byteBuf = ByteBuffer.allocate(intByteSize);
+                            byteBuf.putLong(size);
+                            int send = byteBuf.getInt();
+                            dataOutputStream.writeInt(send);
+
+                            byte[] buf = BtCommand.getBytes("UTF-8");
+                            dataOutputStream.write(buf, 0, buf.length);
+                        }
+
+//                        dataOutputStream.writeUTF(command);
+//                        dataOutputStream.writeUTF(BtCommand);
+//                        dataOutputStream.writeBytes(BtCommand);
+//                        dataOutputStream.flush();
+                        break;
 /*
                         while (true) {
 
@@ -254,7 +274,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
+/*
             if (bluetoothSocket != null) {
                 try {
                     bluetoothSocket.close();
@@ -263,7 +283,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 bluetoothSocket = null;
             }
-
+*/
             handler.obtainMessage(
                     Constants.MESSAGE_BT,
                     "DISCONNECTED - Exit BTClientThread")
