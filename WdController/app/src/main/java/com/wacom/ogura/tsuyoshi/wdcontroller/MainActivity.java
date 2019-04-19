@@ -192,41 +192,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 R.string.connect + " " + mBluetoothDevice.getName())
                                 .sendToTarget();
 
-//                        Socket socket = new Socket("192.168.0.1",1755);
-
                         OutputStream os = bluetoothSocket.getOutputStream();
                         dataInputStream = new DataInputStream(bluetoothSocket.getInputStream());
                         dataOutputStream = new DataOutputStream(bluetoothSocket.getOutputStream());
-//                        inputStream = bluetoothSocket.getInputStream();
-//                        outputStream = bluetoothSocket.getOutputStream();
 
                         // Send Command
 //                            String command = "GET:TEMP";   // <- RfCommのコマンド文字列
-                        String command = "getversion";   // <- length = 10
 
-//                        outputStream.write(command.getBytes());
-//                        byte[] buf = BtCommand.getBytes("UTF-8");
-//                        outputStream.write(buf, 0, buf.length);
-//                        outputStream.flush();
-
-                        if (command.length() > 0) {
-                            // Get the message bytes and tell the BluetoothChatService to write
-//                            byte[] send = command.getBytes();
-//                            dataOutputStream.write(send);
-                            int size = command.length();
-                            int intByteSize = 4;
-                            ByteBuffer byteBuf = ByteBuffer.allocate(intByteSize);
-                            byteBuf.putLong(size);
-                            int send = byteBuf.getInt();
-                            dataOutputStream.writeInt(send);
+                        if (BtCommand.length() > 0) {
+                            int size = BtCommand.length();
+                            dataOutputStream.writeInt(size);
 
                             byte[] buf = BtCommand.getBytes("UTF-8");
                             dataOutputStream.write(buf, 0, buf.length);
                         }
 
-//                        dataOutputStream.writeUTF(command);
-//                        dataOutputStream.writeUTF(BtCommand);
-//                        dataOutputStream.writeBytes(BtCommand);
 //                        dataOutputStream.flush();
                         break;
 /*
