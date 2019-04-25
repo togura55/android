@@ -218,6 +218,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         dataOutputStream = new DataOutputStream(bluetoothSocket.getOutputStream());
 
                         // Send Command
+<<<<<<< HEAD
 //                        String command = "getversion";   // <- length = 10
 
                         if (BtCommand.length() > 0) {
@@ -227,17 +228,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             byteBuf.putLong(size);
                             int send = byteBuf.getInt();
                             dataOutputStream.writeInt(send);
+=======
+//                            String command = "GET:TEMP";   // <- RfCommのコマンド文字列
+
+                        if (BtCommand.length() > 0) {
+                            int size = BtCommand.length();
+                            dataOutputStream.writeInt(size);
+>>>>>>> e2dae04fb580ef983d40b108c614118d7874df88
 
                             byte[] buf = BtCommand.getBytes("UTF-8");
                             dataOutputStream.write(buf, 0, buf.length);
                         }
 //                        break;
 
+<<<<<<< HEAD
                         // Read Response
                         int incomingBytes = dataInputStream.read(incomingBuff);
                         byte[] buff = new byte[incomingBytes];
                         System.arraycopy(incomingBuff, 0, buff, 0, incomingBytes);
                         String s = new String(buff, StandardCharsets.UTF_8);
+=======
+//                        dataOutputStream.flush();
+                        break;
+/*
+                        while (true) {
+
+                            if (Thread.interrupted()) {
+                                break;
+                            }
+>>>>>>> e2dae04fb580ef983d40b108c614118d7874df88
 
                         ResponseDispatcher(BtCommand, s);
 
