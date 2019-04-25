@@ -31,6 +31,9 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 import java.nio.ByteBuffer;
@@ -58,10 +61,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private BluetoothGatt mBluetoothGatt = null;    // Gattサービスの検索、キャラスタリスティックの読み書き
     private BluetoothDevice mBluetoothDevice = null;
 
-    private String mDefaultDeviceName;
-    private String mDefaultIpAddress;
-    private String mDefaultPortNumber;
-    private String mDefaultWdpVersion;
+//    private String mDefaultDeviceName;
+//    private String mDefaultIpAddress;
+//    private String mDefaultPortNumber;
+    private String mWdpVersion;
+    private String mWidth;
+    private String mHeight;
+    private String mPointSize;
+    private String mDeviceName;
+    private String mESN;
+    private String mBattery;
+    private String mFirmwareVersion;       // added 1.1
+    private String mDeviceType;
+    private String mTransferMode;
+    private String mBarcode;               // added 1.1
+    private String mServerIpAddress;
+    private String mServerPortNumberBase;
+    private int mDeviceState;
+    private String mClientIpAddress;    // added 1.0.2
 
     // GUI items
     private Button mButton_Connect;    // Connect button
@@ -94,6 +111,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private final String CMD_GETLOGS = "getlogs";
     private final String CMD_GETBARCODE = "getbarcode";
 
+    private int State;
+    private String CommandState;
+    private final int STATE_NEUTRAL = 0; // initial state
+    private final int STATE_READY = 1;   // Scan BLE completed
+    private final int STATE_ACTIVE = 2;  // under handling BLE device
+
+    //        public int PublisherCurrentState;
+    private final int PUBLISHER_STATE_NEUTRAL = 0;
+    private final int PUBLISHER_STATE_ACTIVE = 1;
+    private final int PUBLISHER_STATE_IDLE = 2;
+
+
     // ---- RfComm ------------------------
     static final String TAG = "BT_TEST1";
     BluetoothAdapter bluetoothAdapter;
@@ -103,6 +132,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     BTClientThread btClientThread;
 
+    void ShowToaster(final String s){
+        if (s != null) {
+            MainActivity.this.runOnUiThread(new Runnable() {
+                public void run() {
+                    Toast.makeText(MainActivity.this, s, Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
     final Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -111,24 +149,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             switch (msg.what) {
                 case Constants.MESSAGE_GETCONFIG:
+                    mEditText_DeviceName.setText(mDeviceName);
+                    mEditText_IpAddress.setText(mServerIpAddress);
+                    mEditText_PortNumber.setText(mServerPortNumberBase);
                     break;
                 case Constants.MESSAGE_SETCONFIG:  // setconfig,aaa,bbb,ccc
+                    ShowToaster((String) msg.obj);
                     break;
                 case Constants.MESSAGE_GETVERSION:
-                    mDefaultWdpVersion = (String) msg.obj;
-                    mTextView_WdpVersion.setText(mDefaultWdpVersion);
+                    mTextView_WdpVersion.setText(mWdpVersion);
                     break;
                 case Constants.MESSAGE_START:       // Publisher state
+                    ShowToaster((String) msg.obj);
                     break;
                 case Constants.MESSAGE_STOP:         // Publisher state
+                    ShowToaster((String) msg.obj);
                     break;
                 case Constants.MESSAGE_SUSPEND:   // Publisher state
+                    ShowToaster((String) msg.obj);
                     break;
                 case Constants.MESSAGE_RESUME:     // Publisher state
+                    ShowToaster((String) msg.obj);
                     break;
                 case Constants.MESSAGE_RESTART:
+                    ShowToaster((String) msg.obj);
                     break;
                 case Constants.MESSAGE_POWEROFF:
+                    ShowToaster((String) msg.obj);
                     break;
                 case Constants.MESSAGE_GETLOGS:
                     break;
@@ -178,15 +225,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         public void run() {
             byte[] incomingBuff = new byte[64];
 
-//            BluetoothDevice bluetoothDevice = null;
-//            Set<BluetoothDevice> devices = bluetoothAdapter.getBondedDevices();
-//            for(BluetoothDevice device : devices){
-//                if(device.getName().equals(Constants.BT_DEVICE)) {
-//                    bluetoothDevice = device;
-//                    break;
-//                }
-//            }
-
             if (mBluetoothDevice == null) {
                 Log.d(TAG, "No device found.");
                 return;
@@ -198,7 +236,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         Constants.BT_UUID);
 
                 while (true) {
-
                     if (Thread.interrupted()) {
                         break;
                     }
@@ -218,265 +255,129 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         dataOutputStream = new DataOutputStream(bluetoothSocket.getOutputStream());
 
                         // Send Command
-<<<<<<< HEAD
 //                        String command = "getversion";   // <- length = 10
 
                         if (BtCommand.length() > 0) {
-                            int size = BtCommand.length();
-                            int intByteSize = 4;
-                            ByteBuffer byteBuf = ByteBuffer.allocate(intByteSize);
-                            byteBuf.putLong(size);
-                            int send = byteBuf.getInt();
-                            dataOutputStream.writeInt(send);
-=======
-//                            String command = "GET:TEMP";   // <- RfCommのコマンド文字列
+//                            int size = BtCommand.length();
+//                            int intByteSize = 4;
+//                            ByteBuffer byteBuf = ByteBuffer.allocate(intByteSize);
+//                            byteBuf.putLong(size);
+//                            int send = byteBuf.getInt();
+//                            dataOutputStream.writeInt(send);
 
-                        if (BtCommand.length() > 0) {
                             int size = BtCommand.length();
                             dataOutputStream.writeInt(size);
->>>>>>> e2dae04fb580ef983d40b108c614118d7874df88
 
                             byte[] buf = BtCommand.getBytes("UTF-8");
                             dataOutputStream.write(buf, 0, buf.length);
+
+                            // Read Response
+                            int incomingBytes = dataInputStream.read(incomingBuff);
+                            byte[] buff = new byte[incomingBytes];
+                            System.arraycopy(incomingBuff, 0, buff, 0, incomingBytes);
+                            String s = new String(buff, StandardCharsets.UTF_8);
+
+                            ResponseDispatcher(BtCommand, s);
+
+                            break;
                         }
-//                        break;
+                    } catch (
+                            IOException e) {
+                        e.printStackTrace();
+                    }
 
-<<<<<<< HEAD
-                        // Read Response
-                        int incomingBytes = dataInputStream.read(incomingBuff);
-                        byte[] buff = new byte[incomingBytes];
-                        System.arraycopy(incomingBuff, 0, buff, 0, incomingBytes);
-                        String s = new String(buff, StandardCharsets.UTF_8);
-=======
-//                        dataOutputStream.flush();
-                        break;
-/*
-                        while (true) {
-
-                            if (Thread.interrupted()) {
-                                break;
-                            }
->>>>>>> e2dae04fb580ef983d40b108c614118d7874df88
-
-                        ResponseDispatcher(BtCommand, s);
-
-                        // Show Result to UI
-                        handler.obtainMessage(
-//                                    Constants.MESSAGE_TEMP,
-                                Constants.MESSAGE_BT,
-                                s)
-                                .sendToTarget();
-
-                        // Update again in a few seconds
-                        Thread.sleep(3000);
-                    } catch (IOException e) {
-                        // connect will throw IOException immediately
-                        // when it's disconnected.
-                        Log.d(TAG, e.getMessage());
+                    // 閉じる
+                    if (bluetoothSocket != null) {
+                        try {
+                            bluetoothSocket.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        bluetoothSocket = null;
                     }
 
                     handler.obtainMessage(
                             Constants.MESSAGE_BT,
-                            R.string.disconnect)
+                            "DISCONNECTED - Exit BTClientThread")
                             .sendToTarget();
-
-                    // Re-try after 3 sec
-                    Thread.sleep(3 * 1000);
                 }
-
-            } catch (
-                    InterruptedException e) {
-                e.printStackTrace();
             } catch (
                     IOException e) {
                 e.printStackTrace();
             }
-
-            // 閉じる
-            if (bluetoothSocket != null) {
-                try {
-                    bluetoothSocket.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                bluetoothSocket = null;
-            }
-
-            handler.obtainMessage(
-                    Constants.MESSAGE_BT,
-                    "DISCONNECTED - Exit BTClientThread")
-                    .sendToTarget();
         }
     }
 
-void ResponseDispatcher(String command, String response){
+    void ResponseDispatcher(String command, String response) {
 
-        switch (command) {
-            case CMD_GETCONFIG:
-                handler.obtainMessage(
-                        Constants.MESSAGE_GETCONFIG, response)
-                        .sendToTarget();
-                break;
-            case CMD_SETCONFIG:  // setconfig,aaa,bbb,ccc
-                break;
-            case CMD_GETVERSION:
-                handler.obtainMessage(
-                        Constants.MESSAGE_GETVERSION, response)
-                        .sendToTarget();
-                break;
-            case CMD_START:       // Publisher state
-                break;
-            case CMD_STOP:         // Publisher state
-                break;
-            case CMD_SUSPEND:   // Publisher state
-                break;
-            case CMD_RESUME:     // Publisher state
-                break;
-            case CMD_RESTART:
-                break;
-            case CMD_POWEROFF:
-                break;
-            case CMD_GETLOGS:
-                break;
-            case CMD_GETBARCODE:
-                break;
+        try {
+            switch (command) {
+                case CMD_GETCONFIG:
+                    // decode
+ //                   List<String> list = SplitArgument(",", response);
+                    List<String> list = Arrays.asList(response.split(","));
+                    if (list.size() < 13)   // ToDo: should be set by enum
+                    {
+                        // error, resend?
+                        throw new IOException("GetConfig returns the smaller number of parameters.");
+                    } else {
+                        int i = -1;
+                        mWidth = list.get(++i);
+                        mHeight = list.get(++i);
+                        mPointSize = list.get(++i);
+                        mDeviceName = list.get(++i);
+                        mESN = list.get(++i);
+                        mBattery = list.get(++i);
+                        mFirmwareVersion = list.get(++i);       // added 1.1
+                        mDeviceType = list.get(++i);
+                        mTransferMode = list.get(++i);
+                        mBarcode = list.get(++i);               // added 1.1
+                        mServerIpAddress = list.get(++i);
+                        mServerPortNumberBase = list.get(++i);
+                        mDeviceState = Integer.parseInt(list.get(++i));
+                        mClientIpAddress = list.get(++i);    // added 1.0.2
+                    }
+                    handler.obtainMessage(
+                            Constants.MESSAGE_GETCONFIG, response)
+                            .sendToTarget();
+                    break;
+                case CMD_SETCONFIG:  // setconfig,aaa,bbb,ccc
+                    handler.obtainMessage(
+                            Constants.MESSAGE_SETCONFIG, response)
+                            .sendToTarget();
+                    break;
+                case CMD_GETVERSION:
+                    mWdpVersion = response;
+                    handler.obtainMessage(
+                            Constants.MESSAGE_GETVERSION, response)
+                            .sendToTarget();
+                    break;
+                case CMD_START:       // Publisher state
+                    break;
+                case CMD_STOP:         // Publisher state
+                    break;
+                case CMD_SUSPEND:   // Publisher state
+                    break;
+                case CMD_RESUME:     // Publisher state
+                    break;
+                case CMD_RESTART:
+                    break;
+                case CMD_POWEROFF:
+                    break;
+                case CMD_GETLOGS:
+                    break;
+                case CMD_GETBARCODE:
+                    break;
 
-            default:
-                break;
+                default:
+                    break;
+            }
+        }catch(IOException ex) {
+            ex.printStackTrace();
         }
-}
-
+    }
     // ----- End of RfComm -----------------
 
-    //region BT
-/*
-    // BluetoothGattコールバックオブジェクト
-    private final BluetoothGattCallback mGattCallback = new BluetoothGattCallback() {
-        // 接続状態変更（connectGatt()の結果として呼ばれる。）
-        @Override
-        public void onConnectionStateChange(BluetoothGatt gatt, int status, int newState) {
-            if (BluetoothGatt.GATT_SUCCESS != status) {
-                return;
-            }
-
-            if (BluetoothProfile.STATE_CONNECTED == newState) {    // 接続完了
-                mBluetoothGatt.discoverServices();    // サービス検索
-                runOnUiThread(new Runnable() {
-                    public void run() {
-                        // GUIアイテムの有効無効の設定
-                        // 切断ボタンを有効にする
-                        mButton_Disconnect.setEnabled(true);
-                    }
-                });
-                return;
-            }
-            if (BluetoothProfile.STATE_DISCONNECTED == newState) {    // 切断完了（接続可能範囲から外れて切断された）
-                // 接続可能範囲に入ったら自動接続するために、mBluetoothGatt.connect()を呼び出す。
-                mBluetoothGatt.connect();
-                runOnUiThread(new Runnable() {
-                    public void run() {
-                        // GUIアイテムの有効無効の設定
-                        // 読み込みボタンを無効にする（通知チェックボックスはチェック状態を維持。通知ONで切断した場合、再接続時に通知は再開するので）
-
-                    }
-                });
- //               return;
-            }
-        }
-
-        // サービス検索が完了したときの処理（mBluetoothGatt.discoverServices()の結果として呼ばれる。）
-        @Override
-        public void onServicesDiscovered(BluetoothGatt gatt, int status) {
-            if (BluetoothGatt.GATT_SUCCESS != status) {
-                return;
-            }
-
-            // 発見されたサービスのループ
-            for (BluetoothGattService service : gatt.getServices()) {
-                // サービスごとに個別の処理
-                if ((null == service) || (null == service.getUuid())) {
-                    continue;
-                }
-                if (UUID_SERVICE_PRIVATE.equals(service.getUuid())) {    // プライベートサービス
-                    runOnUiThread(new Runnable() {
-                        public void run() {
-                            // GUIアイテムの有効無効の設定
-
-                        }
-                    });
-                    continue;
-                }
-            }
-        }
-
-        // キャラクタリスティックが読み込まれたときの処理
-        @Override
-        public void onCharacteristicRead(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
-            if (BluetoothGatt.GATT_SUCCESS != status) {
-                return;
-            }
-            // キャラクタリスティックごとに個別の処理
-            if (UUID_CHARACTERISTIC_PRIVATE1.equals(characteristic.getUuid())) {    // キャラクタリスティック１：データサイズは、2バイト（数値を想定。0～65,535）
-                byte[] byteChara = characteristic.getValue();
-                ByteBuffer bb = ByteBuffer.wrap(byteChara);
-                final String strChara = String.valueOf(bb.getShort());
-                runOnUiThread(new Runnable() {
-                    public void run() {
-                        // GUIアイテムへの反映
-                    }
-                });
-                return;
-            }
-            if (UUID_CHARACTERISTIC_PRIVATE2.equals(characteristic.getUuid())) {    // キャラクタリスティック２：データサイズは、8バイト（文字列を想定。半角文字8文字）
-                final String strChara = characteristic.getStringValue(0);
-                runOnUiThread(new Runnable() {
-                    public void run() {
-                        // GUIアイテムへの反映
-                    }
-                });
-//                return;
-            }
-        }
-
-        // キャラクタリスティック変更が通知されたときの処理
-        @Override
-        public void onCharacteristicChanged(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic) {
-            // キャラクタリスティックごとに個別の処理
-            if (UUID_CHARACTERISTIC_PRIVATE1.equals(characteristic.getUuid())) {    // キャラクタリスティック１：データサイズは、2バイト（数値を想定。0～65,535）
-                byte[] byteChara = characteristic.getValue();
-                ByteBuffer bb = ByteBuffer.wrap(byteChara);
-                final String strChara = String.valueOf(bb.getShort());
-                runOnUiThread(new Runnable() {
-                    public void run() {
-                        // GUIアイテムへの反映
-                    }
-                });
-                return;
-            }
-        }
-
-        // キャラクタリスティックが書き込まれたときの処理
-        @Override
-        public void onCharacteristicWrite(BluetoothGatt gatt, BluetoothGattCharacteristic characteristic, int status) {
-            if (BluetoothGatt.GATT_SUCCESS != status) {
-                return;
-            }
-            // キャラクタリスティックごとに個別の処理
-            if (UUID_CHARACTERISTIC_PRIVATE2.equals(characteristic.getUuid())) {    // キャラクタリスティック２：データサイズは、8バイト（文字列を想定。半角文字8文字）
-                runOnUiThread(new Runnable() {
-                    public void run() {
-                        // GUIアイテムの有効無効の設定
-                        // 書き込みボタンを有効にする
-//                        mButton_WriteHello.setEnabled( true );
-//                        mButton_WriteWorld.setEnabled( true );
-                    }
-                });
-//                return;
-            }
-        }
-    };
-*/
-//endregion
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -484,9 +385,9 @@ void ResponseDispatcher(String command, String response){
         setContentView(R.layout.activity_main);
 
         // just for the demo
-        mDefaultDeviceName = "Wacom Clipboard";
-        mDefaultIpAddress = "192.168.0.7";
-        mDefaultPortNumber = "1337";
+        mDeviceName = "Wacom Clipboard";
+        mServerIpAddress = "192.168.0.7";
+        mServerPortNumberBase = "1337";
 
         // GUI items
         mButton_Connect = findViewById(R.id.button_connect);
@@ -567,6 +468,12 @@ void ResponseDispatcher(String command, String response){
         // ---- End of RfComm -----
     }
 
+    private void SendCommand(String command){
+        CommandState = command;
+        btClientThread = new BTClientThread(command);
+        btClientThread.start();
+    }
+
     @Override
     public void onClick(View v) {
         Toast.makeText(this, "onClick is invoked.", Toast.LENGTH_SHORT).show();
@@ -583,48 +490,41 @@ void ResponseDispatcher(String command, String response){
         }
         if (mButton_getVersion.getId() == v.getId()) {
             mButton_getVersion.setEnabled(false);    // 無効化（連打対策）
-                       getversion();            // Get WdP Version
-                       return;
+            CommandState = CMD_GETVERSION;
+            SendCommand(CMD_GETVERSION);
+            return;
         }
         if (mButton_getConfig.getId() == v.getId()) {
             mButton_getConfig.setEnabled(false);    // 無効化（連打対策）
-            //           disconnect();            // disconnect
-            //           return;
+            SendCommand(CMD_GETCONFIG);
         }
         if (mButton_setConfig.getId() == v.getId()) {
             mButton_setConfig.setEnabled(false);    // 無効化（連打対策）
-            //           disconnect();            // disconnect
-//            return;
+            SendCommand(CMD_SETCONFIG);
         }
         if (mButton_deviceStart.getId() == v.getId()) {
             mButton_deviceStart.setEnabled(false);    // 無効化（連打対策）
-            //           disconnect();            // disconnect
-//            return;
+            SendCommand(CMD_START);
         }
         if (mButton_deviceStop.getId() == v.getId()) {
             mButton_deviceStop.setEnabled(false);    // 無効化（連打対策）
-            //           disconnect();            // disconnect
-//            return;
+            SendCommand(CMD_STOP);
         }
         if (mButton_deviceSuspend.getId() == v.getId()) {
             mButton_deviceSuspend.setEnabled(false);    // 無効化（連打対策）
-            //           disconnect();            // disconnect
-//            return;
+            SendCommand(CMD_SUSPEND);
         }
         if (mButton_deviceResume.getId() == v.getId()) {
             mButton_deviceResume.setEnabled(false);    // 無効化（連打対策）
-            //           disconnect();            // disconnect
-//            return;
+            SendCommand(CMD_RESUME);
         }
         if (mButton_devicePowerOff.getId() == v.getId()) {
             mButton_devicePowerOff.setEnabled(false);    // 無効化（連打対策）
-            //           disconnect();            // disconnect
-//            return;
+            SendCommand(CMD_POWEROFF);
         }
         if (mButton_deviceRestart.getId() == v.getId()) {
             mButton_deviceRestart.setEnabled(false);    // 無効化（連打対策）
-            //           disconnect();            // disconnect
-//            return;
+            SendCommand(CMD_RESTART);
         }
     }
 
@@ -660,9 +560,9 @@ void ResponseDispatcher(String command, String response){
 //        mButton_Connect.setEnabled( false );
 //        mButton_Disconnect.setEnabled( false );
 
-        mEditText_DeviceName.setText(mDefaultDeviceName);
-        mEditText_IpAddress.setText(mDefaultIpAddress);
-        mEditText_PortNumber.setText(mDefaultPortNumber);
+        mEditText_DeviceName.setText(mDeviceName);
+        mEditText_IpAddress.setText(mServerIpAddress);
+        mEditText_PortNumber.setText(mServerPortNumberBase);
 
 
         // デバイスアドレスが空でなければ、[接続]ボタンを有効にする。
@@ -758,12 +658,6 @@ void ResponseDispatcher(String command, String response){
                 return true;
         }
         return false;
-    }
-
-    // バージョン取得
-    private void getversion() {
-        btClientThread = new BTClientThread(CMD_GETVERSION);
-        btClientThread.start();
     }
 
     // 接続
