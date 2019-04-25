@@ -33,12 +33,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.UUID;
 
-//import android.bluetooth.BluetoothGattCallback;
-//import android.bluetooth.BluetoothGattService;
-//import android.bluetooth.BluetoothProfile;
-//import android.widget.CheckBox;
-//import java.util.Set;
 import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     // Constants（Bluetooth LE Gatt UUID）
@@ -46,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //    private static final UUID UUID_SERVICE_PRIVATE         = UUID.fromString( "FF6B1160-8FE6-11E7-ABC4-CEC278B6B50A" );
 //    private static final UUID UUID_SERVICE_PRIVATE = UUID.fromString("34B1CF4D-1069-4AD6-89B6-E161D79BE4D2"); // for WdP1.1
 
-//    private static final UUID UUID_CHARACTERISTIC_PRIVATE1 = UUID.fromString("FF6B1426-8FE6-11E7-ABC4-CEC278B6B50A");
+    //    private static final UUID UUID_CHARACTERISTIC_PRIVATE1 = UUID.fromString("FF6B1426-8FE6-11E7-ABC4-CEC278B6B50A");
 //    private static final UUID UUID_CHARACTERISTIC_PRIVATE2 = UUID.fromString("FF6B1548-8FE6-11E7-ABC4-CEC278B6B50A");
     // for Notification
     private static final UUID UUID_NOTIFY = UUID.fromString("00002902-0000-1000-8000-00805f9b34fb");
@@ -65,10 +61,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private String mDefaultDeviceName;
     private String mDefaultIpAddress;
     private String mDefaultPortNumber;
+    private String mDefaultWdpVersion;
 
     // GUI items
     private Button mButton_Connect;    // Connect button
     private Button mButton_Disconnect;    // Disconnect button
+    private Button mButton_getVersion;
     private Button mButton_getConfig;
     private Button mButton_setConfig;
     private Button mButton_deviceStart;
@@ -81,6 +79,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private EditText mEditText_DeviceName;
     private EditText mEditText_IpAddress;
     private EditText mEditText_PortNumber;
+
+    private TextView mTextView_WdpVersion;
 
     private final String CMD_GETCONFIG = "getconfig";
     private final String CMD_SETCONFIG = "setconfig";  // setconfig,aaa,bbb,ccc
@@ -110,16 +110,41 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             final String s;
 
             switch (msg.what) {
+                case Constants.MESSAGE_GETCONFIG:
+                    break;
+                case Constants.MESSAGE_SETCONFIG:  // setconfig,aaa,bbb,ccc
+                    break;
+                case Constants.MESSAGE_GETVERSION:
+                    mDefaultWdpVersion = (String) msg.obj;
+                    mTextView_WdpVersion.setText(mDefaultWdpVersion);
+                    break;
+                case Constants.MESSAGE_START:       // Publisher state
+                    break;
+                case Constants.MESSAGE_STOP:         // Publisher state
+                    break;
+                case Constants.MESSAGE_SUSPEND:   // Publisher state
+                    break;
+                case Constants.MESSAGE_RESUME:     // Publisher state
+                    break;
+                case Constants.MESSAGE_RESTART:
+                    break;
+                case Constants.MESSAGE_POWEROFF:
+                    break;
+                case Constants.MESSAGE_GETLOGS:
+                    break;
+                case Constants.MESSAGE_GETBARCODE:
+                    break;
+
                 case Constants.MESSAGE_BT:
                     s = (String) msg.obj;
                     if (s != null) {
- //                       btStatusTextView.setText(s);
+                        //                       btStatusTextView.setText(s);
 //                        MainActivity.this.runOnUiThread(new Runnable() {
 //                            public void run() {
 //                                Toast.makeText(MainActivity.this, s, Toast.LENGTH_SHORT).show();
 //                            }
 //                        });
-                     }
+                    }
                     break;
 //                case Constants.MESSAGE_TEMP:
 //                    s = (String) msg.obj;
@@ -142,19 +167,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         DataInputStream dataInputStream;
         DataOutputStream dataOutputStream;
-//        InputStream inputStream;
-//        OutputStream outputStream;
         BluetoothSocket bluetoothSocket;
 
-        public String BtCommand;
+        private String BtCommand;
 
-        BTClientThread(String command)
-        {
+        BTClientThread(String command) {
             BtCommand = command;
         }
 
         public void run() {
-
             byte[] incomingBuff = new byte[64];
 
 //            BluetoothDevice bluetoothDevice = null;
@@ -192,28 +213,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 R.string.connect + " " + mBluetoothDevice.getName())
                                 .sendToTarget();
 
-//                        Socket socket = new Socket("192.168.0.1",1755);
-
                         OutputStream os = bluetoothSocket.getOutputStream();
                         dataInputStream = new DataInputStream(bluetoothSocket.getInputStream());
                         dataOutputStream = new DataOutputStream(bluetoothSocket.getOutputStream());
-//                        inputStream = bluetoothSocket.getInputStream();
-//                        outputStream = bluetoothSocket.getOutputStream();
 
                         // Send Command
-//                            String command = "GET:TEMP";   // <- RfCommのコマンド文字列
-                        String command = "getversion";   // <- length = 10
+//                        String command = "getversion";   // <- length = 10
 
-//                        outputStream.write(command.getBytes());
-//                        byte[] buf = BtCommand.getBytes("UTF-8");
-//                        outputStream.write(buf, 0, buf.length);
-//                        outputStream.flush();
-
-                        if (command.length() > 0) {
-                            // Get the message bytes and tell the BluetoothChatService to write
-//                            byte[] send = command.getBytes();
-//                            dataOutputStream.write(send);
-                            int size = command.length();
+                        if (BtCommand.length() > 0) {
+                            int size = BtCommand.length();
                             int intByteSize = 4;
                             ByteBuffer byteBuf = ByteBuffer.allocate(intByteSize);
                             byteBuf.putLong(size);
@@ -223,37 +231,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             byte[] buf = BtCommand.getBytes("UTF-8");
                             dataOutputStream.write(buf, 0, buf.length);
                         }
+//                        break;
 
-//                        dataOutputStream.writeUTF(command);
-//                        dataOutputStream.writeUTF(BtCommand);
-//                        dataOutputStream.writeBytes(BtCommand);
-//                        dataOutputStream.flush();
-                        break;
-/*
-                        while (true) {
+                        // Read Response
+                        int incomingBytes = dataInputStream.read(incomingBuff);
+                        byte[] buff = new byte[incomingBytes];
+                        System.arraycopy(incomingBuff, 0, buff, 0, incomingBytes);
+                        String s = new String(buff, StandardCharsets.UTF_8);
 
-                            if (Thread.interrupted()) {
-                                break;
-                            }
+                        ResponseDispatcher(BtCommand, s);
 
-                            // Read Response
-//                            int incomingBytes = inputStream.read(incomingBuff);
-                            String incomingString = dataInputStream.readUTF(incomingBuff);
-                            byte[] buff = new byte[incomingBytes];
-                            System.arraycopy(incomingBuff, 0, buff, 0, incomingBytes);
-                            String s = new String(buff, StandardCharsets.UTF_8);
-
-                            // Show Result to UI
-                            handler.obtainMessage(
+                        // Show Result to UI
+                        handler.obtainMessage(
 //                                    Constants.MESSAGE_TEMP,
-                                    Constants.MESSAGE_BT,
-                                    s)
-                                    .sendToTarget();
+                                Constants.MESSAGE_BT,
+                                s)
+                                .sendToTarget();
 
-                            // Update again in a few seconds
-                            Thread.sleep(3000);
-                        }
-*/
+                        // Update again in a few seconds
+                        Thread.sleep(3000);
                     } catch (IOException e) {
                         // connect will throw IOException immediately
                         // when it's disconnected.
@@ -269,12 +265,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     Thread.sleep(3 * 1000);
                 }
 
-            } catch (InterruptedException e) {
+            } catch (
+                    InterruptedException e) {
                 e.printStackTrace();
-            } catch (IOException e) {
+            } catch (
+                    IOException e) {
                 e.printStackTrace();
             }
-/*
+
+            // 閉じる
             if (bluetoothSocket != null) {
                 try {
                     bluetoothSocket.close();
@@ -283,13 +282,51 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 bluetoothSocket = null;
             }
-*/
+
             handler.obtainMessage(
                     Constants.MESSAGE_BT,
                     "DISCONNECTED - Exit BTClientThread")
                     .sendToTarget();
         }
     }
+
+void ResponseDispatcher(String command, String response){
+
+        switch (command) {
+            case CMD_GETCONFIG:
+                handler.obtainMessage(
+                        Constants.MESSAGE_GETCONFIG, response)
+                        .sendToTarget();
+                break;
+            case CMD_SETCONFIG:  // setconfig,aaa,bbb,ccc
+                break;
+            case CMD_GETVERSION:
+                handler.obtainMessage(
+                        Constants.MESSAGE_GETVERSION, response)
+                        .sendToTarget();
+                break;
+            case CMD_START:       // Publisher state
+                break;
+            case CMD_STOP:         // Publisher state
+                break;
+            case CMD_SUSPEND:   // Publisher state
+                break;
+            case CMD_RESUME:     // Publisher state
+                break;
+            case CMD_RESTART:
+                break;
+            case CMD_POWEROFF:
+                break;
+            case CMD_GETLOGS:
+                break;
+            case CMD_GETBARCODE:
+                break;
+
+            default:
+                break;
+        }
+}
+
     // ----- End of RfComm -----------------
 
     //region BT
@@ -437,6 +474,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mButton_Connect.setOnClickListener(this);
         mButton_Disconnect = findViewById(R.id.button_disconnect);
         mButton_Disconnect.setOnClickListener(this);
+        mButton_getVersion = findViewById(R.id.button_getVersion);
+        mButton_getVersion.setOnClickListener(this);
         mButton_getConfig = findViewById(R.id.button_getConfig);
         mButton_getConfig.setOnClickListener(this);
         mButton_setConfig = findViewById(R.id.button_setConfig);
@@ -458,6 +497,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mEditText_IpAddress = findViewById(R.id.edit_ipAddress);
         mEditText_PortNumber = findViewById(R.id.edit_portNumber);
 
+        mTextView_WdpVersion = findViewById(R.id.textview_wdpversion);
+
         // Android端末がBLEをサポートしてるかの確認
         if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)) {
             Toast.makeText(this, R.string.ble_is_not_supported, Toast.LENGTH_SHORT).show();
@@ -475,13 +516,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         // Bluetoothアダプタの取得
 
-            BluetoothManager bluetoothManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
-            mBluetoothAdapter = bluetoothManager.getAdapter();
-            if (null == mBluetoothAdapter) {    // Android端末がBluetoothをサポートしていない
-                Toast.makeText(this, R.string.bluetooth_is_not_supported, Toast.LENGTH_SHORT).show();
-                finish();    // アプリ終了宣言
-                return;
-            }
+        BluetoothManager bluetoothManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
+        mBluetoothAdapter = bluetoothManager.getAdapter();
+        if (null == mBluetoothAdapter) {    // Android端末がBluetoothをサポートしていない
+            Toast.makeText(this, R.string.bluetooth_is_not_supported, Toast.LENGTH_SHORT).show();
+            finish();    // アプリ終了宣言
+            return;
+        }
 
         // ----- RfComm -----
 
@@ -520,6 +561,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mButton_Disconnect.setEnabled(false);    // [切断]ボタンの無効化（連打対策）
             disconnect();            // disconnect
             return;
+        }
+        if (mButton_getVersion.getId() == v.getId()) {
+            mButton_getVersion.setEnabled(false);    // 無効化（連打対策）
+                       getversion();            // Get WdP Version
+                       return;
         }
         if (mButton_getConfig.getId() == v.getId()) {
             mButton_getConfig.setEnabled(false);    // 無効化（連打対策）
@@ -695,6 +741,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return false;
     }
 
+    // バージョン取得
+    private void getversion() {
+        btClientThread = new BTClientThread(CMD_GETVERSION);
+        btClientThread.start();
+    }
+
     // 接続
     private void connect() {
         if (mDeviceAddress.equals("")) {    // DeviceAddressが空の場合は処理しない
@@ -712,8 +764,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        mBluetoothGatt = device.connectGatt( this, false, mGattCallback );
 
         // --- RfComm ------
-        btClientThread = new BTClientThread(CMD_GETVERSION);
-        btClientThread.start();
+//        btClientThread = new BTClientThread(CMD_GETVERSION);
+//        btClientThread.start();
         // ---- End of RfComm -----
     }
 

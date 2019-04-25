@@ -16,11 +16,7 @@
     <string name="device_address">デバイスアドレス : </string>
     <string name="connect">接続</string>
     <string name="disconnect">切断</string>
-    <string name="chara1">キャラ１ : </string>
-    <string name="chara2">キャラ２ : </string>
-    <string name="chara1_notify">キャラ１(通知) : </string>
-    <string name="hello">ハロー</string>
-    <string name="world">ワールド</string>
+    <string name="getVersion">バージョン取得 </string>
     <string name="getConfig">設定受信</string>
     <string name="setConfig">設定送信</string>
     <string name="smartpad_name">デバイス名: </string>

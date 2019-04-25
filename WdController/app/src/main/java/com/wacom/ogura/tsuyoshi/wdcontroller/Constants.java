@@ -10,7 +10,19 @@ public interface Constants {
 
     public static final String STATE_TEMP = "STATE_TEMP";
 
-    public static final int MESSAGE_BT = 0;
-    public static final int MESSAGE_TEMP = 2;
+    public static final int MESSAGE_BT = 100;
+    public static final int MESSAGE_TEMP = 101;
+
+    public static final int MESSAGE_GETCONFIG = 0;
+    public static final int MESSAGE_SETCONFIG = 1;
+    public static final int MESSAGE_GETVERSION = 2;
+    public static final int MESSAGE_START = 3;
+    public static final int MESSAGE_STOP = 4;
+    public static final int MESSAGE_SUSPEND = 5;
+    public static final int MESSAGE_RESUME = 6;
+    public static final int MESSAGE_RESTART = 7;
+    public static final int MESSAGE_POWEROFF = 8;
+    public static final int MESSAGE_GETLOGS = 9;
+    public static final int MESSAGE_GETBARCODE = 10;
 
 }

@@ -16,11 +16,7 @@
     <string name="device_address">Device Address : </string>
     <string name="connect">Connect</string>
     <string name="disconnect">Disconnect</string>
-    <string name="chara1">Chara1 : </string>
-    <string name="chara2">Chara2 : </string>
-    <string name="chara1_notify">Chara1(Notify) : </string>
-    <string name="hello">Hello</string>
-    <string name="world">World</string>
+    <string name="getVersion">Get Version </string>
     <string name="getConfig">Get Config </string>
     <string name="setConfig">Set Config</string>
     <string name="smartpad_name">Device Name: </string>
