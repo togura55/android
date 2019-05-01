@@ -55,15 +55,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final int REQUEST_CONNECT_DEVICE = 2; // デバイス接続要求時の識別コード
     private static final int PERMISSION_REQUEST_COARSE_LOCATION = 1;  // Android 6(sdk>23) Bluetooth Scan
 
+    private String CommandState;        // a current state of which command is just sent to Pub
+    private final String CMD_GETCONFIG = "getconfig";
+    private final String CMD_SETCONFIG = "setconfig";  // setconfig,aaa,bbb,ccc
+    private final String CMD_GETVERSION = "getversion";
+    private final String CMD_START = "start";       // Publisher state
+    private final String CMD_STOP = "stop";         // Publisher state
+    private final String CMD_SUSPEND = "suspend";   // Publisher state
+    private final String CMD_RESUME = "resume";     // Publisher state
+    private final String CMD_RESTART = "restart";
+    private final String CMD_POWEROFF = "poweroff";
+    private final String CMD_GETLOGS = "getlogs";
+    private final String CMD_GETBARCODE = "getbarcode";
+
+    private int State;      // a current state of the WdC, set one of the STATE_XXX value
+    private final int STATE_NEUTRAL = 0; // initial state
+    private final int STATE_READY = 1;   // Scan BLE completed
+    private final int STATE_ACTIVE = 2;  // under handling BLE device
+
+    //        public int PublisherCurrentState;
+    private final int PUBLISHER_STATE_DISCONNECTED = -1;
+    private final int PUBLISHER_STATE_NEUTRAL = 0;
+    private final int PUBLISHER_STATE_ACTIVE = 1;
+    private final int PUBLISHER_STATE_IDLE = 2;
+
     // member valuables
     private BluetoothAdapter mBluetoothAdapter;    // BluetoothAdapter : Bluetooth処理で必要
     private String mDeviceAddress = "";    // デバイスアドレス
     private BluetoothGatt mBluetoothGatt = null;    // Gattサービスの検索、キャラスタリスティックの読み書き
     private BluetoothDevice mBluetoothDevice = null;
 
-//    private String mDefaultDeviceName;
-//    private String mDefaultIpAddress;
-//    private String mDefaultPortNumber;
     private String mWdpVersion;
     private String mWidth;
     private String mHeight;
@@ -77,7 +98,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private String mBarcode;               // added 1.1
     private String mServerIpAddress;
     private String mServerPortNumberBase;
-    private int mDeviceState;
+    private int mDeviceState  = PUBLISHER_STATE_DISCONNECTED;
     private String mClientIpAddress;    // added 1.0.2
 
     // GUI items
@@ -98,30 +119,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private EditText mEditText_PortNumber;
 
     private TextView mTextView_WdpVersion;
-
-    private final String CMD_GETCONFIG = "getconfig";
-    private final String CMD_SETCONFIG = "setconfig";  // setconfig,aaa,bbb,ccc
-    private final String CMD_GETVERSION = "getversion";
-    private final String CMD_START = "start";       // Publisher state
-    private final String CMD_STOP = "stop";         // Publisher state
-    private final String CMD_SUSPEND = "suspend";   // Publisher state
-    private final String CMD_RESUME = "resume";     // Publisher state
-    private final String CMD_RESTART = "restart";
-    private final String CMD_POWEROFF = "poweroff";
-    private final String CMD_GETLOGS = "getlogs";
-    private final String CMD_GETBARCODE = "getbarcode";
-
-    private int State;
-    private String CommandState;
-    private final int STATE_NEUTRAL = 0; // initial state
-    private final int STATE_READY = 1;   // Scan BLE completed
-    private final int STATE_ACTIVE = 2;  // under handling BLE device
-
-    //        public int PublisherCurrentState;
-    private final int PUBLISHER_STATE_NEUTRAL = 0;
-    private final int PUBLISHER_STATE_ACTIVE = 1;
-    private final int PUBLISHER_STATE_IDLE = 2;
-
 
     // ---- RfComm ------------------------
     static final String TAG = "BT_TEST1";
@@ -337,6 +334,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         mDeviceState = Integer.parseInt(list.get(++i));
                         mClientIpAddress = list.get(++i);    // added 1.0.2
                     }
+
+                    UpdateUi(mDeviceState);
+
                     handler.obtainMessage(
                             Constants.MESSAGE_GETCONFIG, response)
                             .sendToTarget();
@@ -353,16 +353,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             .sendToTarget();
                     break;
                 case CMD_START:       // Publisher state
+                    mDeviceState = PUBLISHER_STATE_ACTIVE;
+                    UpdateUi(mDeviceState);
                     break;
                 case CMD_STOP:         // Publisher state
+                    mDeviceState = PUBLISHER_STATE_NEUTRAL;
+                    UpdateUi(mDeviceState);
                     break;
                 case CMD_SUSPEND:   // Publisher state
+                    mDeviceState = PUBLISHER_STATE_IDLE;
+                    UpdateUi(mDeviceState);
                     break;
                 case CMD_RESUME:     // Publisher state
+                    mDeviceState = PUBLISHER_STATE_ACTIVE;
+                    UpdateUi(mDeviceState);
                     break;
                 case CMD_RESTART:
+                    mDeviceState = PUBLISHER_STATE_DISCONNECTED;
+                    UpdateUi(mDeviceState);
                     break;
                 case CMD_POWEROFF:
+                    mDeviceState = PUBLISHER_STATE_DISCONNECTED;
+                    UpdateUi(mDeviceState);
                     break;
                 case CMD_GETLOGS:
                     break;
@@ -374,6 +386,62 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }catch(IOException ex) {
             ex.printStackTrace();
+        }
+    }
+
+    void UpdateUi(int state){
+        switch (state){
+            case PUBLISHER_STATE_DISCONNECTED:
+                mButton_Connect.setEnabled(false);    // Connect button
+                mButton_Disconnect.setEnabled(false);    // Disconnect button
+                mButton_getVersion.setEnabled(false);
+                mButton_getConfig.setEnabled(false);
+                mButton_setConfig.setEnabled(false);
+                mButton_deviceStart.setEnabled(false);
+                mButton_deviceStop.setEnabled(false);
+                mButton_deviceSuspend.setEnabled(false);
+                mButton_deviceResume.setEnabled(false);
+                mButton_devicePowerOff.setEnabled(false);
+                mButton_deviceRestart.setEnabled(false);
+                break;
+            case PUBLISHER_STATE_NEUTRAL:
+                mButton_getVersion.setEnabled(true);
+                mButton_getConfig.setEnabled(true);
+                mButton_setConfig.setEnabled(true);
+
+                mButton_deviceStart.setEnabled(true);
+                mButton_deviceStop.setEnabled(false);
+                mButton_deviceSuspend.setEnabled(false);
+                mButton_deviceResume.setEnabled(false);
+                mButton_devicePowerOff.setEnabled(true);
+                mButton_deviceRestart.setEnabled(true);
+                break;
+            case PUBLISHER_STATE_ACTIVE:
+                mButton_getVersion.setEnabled(true);
+                mButton_getConfig.setEnabled(true);
+                mButton_setConfig.setEnabled(true);
+
+                mButton_deviceStart.setEnabled(false);
+                mButton_deviceStop.setEnabled(true);
+                mButton_deviceSuspend.setEnabled(true);
+                mButton_deviceResume.setEnabled(false);
+                mButton_devicePowerOff.setEnabled(true);
+                mButton_deviceRestart.setEnabled(true);
+                break;
+            case PUBLISHER_STATE_IDLE:
+                mButton_getVersion.setEnabled(true);
+                mButton_getConfig.setEnabled(true);
+                mButton_setConfig.setEnabled(true);
+
+                mButton_deviceStart.setEnabled(false);
+                mButton_deviceStop.setEnabled(true);
+                mButton_deviceSuspend.setEnabled(false);
+                mButton_deviceResume.setEnabled(true);
+                mButton_devicePowerOff.setEnabled(true);
+                mButton_deviceRestart.setEnabled(true);
+                break;
+            default:
+                break;
         }
     }
     // ----- End of RfComm -----------------
@@ -418,6 +486,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mEditText_PortNumber = findViewById(R.id.edit_portNumber);
 
         mTextView_WdpVersion = findViewById(R.id.textview_wdpversion);
+
+        UpdateUi(PUBLISHER_STATE_DISCONNECTED);
 
         // Android端末がBLEをサポートしてるかの確認
         if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)) {
@@ -490,7 +560,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         if (mButton_getVersion.getId() == v.getId()) {
             mButton_getVersion.setEnabled(false);    // 無効化（連打対策）
-            CommandState = CMD_GETVERSION;
             SendCommand(CMD_GETVERSION);
             return;
         }
@@ -541,7 +610,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    // 初回表示時、および、ポーズからの復帰時
+    // 初回表示時、および、他画面からの戻り、ポーズからの復帰時
     @Override
     protected void onResume() {
         super.onResume();
@@ -565,9 +634,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mEditText_PortNumber.setText(mServerPortNumberBase);
 
 
-        // デバイスアドレスが空でなければ、[接続]ボタンを有効にする。
+        // Try GetConfig if the device address is not empty
+        //   Is WdP device？
+        //    Yes, Read DeviceState value of WdP
         if (!mDeviceAddress.equals("")) {
-            mButton_Connect.setEnabled(true);
+ //           mButton_Connect.setEnabled(true);
+            SendCommand(CMD_GETCONFIG);
         }
 
         // [接続]ボタンを押す
