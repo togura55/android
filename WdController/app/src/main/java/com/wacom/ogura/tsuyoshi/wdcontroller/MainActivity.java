@@ -67,6 +67,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private final String CMD_POWEROFF = "poweroff";
     private final String CMD_GETLOGS = "getlogs";
     private final String CMD_GETBARCODE = "getbarcode";
+    private final String CMD_GETSTATUS = "getstatus";
+
+    private final String RES_ACK = "ack";
+    private final String RES_NAK = "nak";
 
     private int State;      // a current state of the WdC, set one of the STATE_XXX value
     private final int STATE_NEUTRAL = 0; // initial state
@@ -178,6 +182,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     break;
                 case Constants.MESSAGE_GETBARCODE:
                     break;
+                case Constants.MESSAGE_GETSTATUS:
+                    break;
 
                 case Constants.MESSAGE_BT:
                     s = (String) msg.obj;
@@ -222,10 +228,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         public void run() {
             byte[] incomingBuff = new byte[64];
 
-            if (mBluetoothDevice == null) {
-                Log.d(TAG, "No device found.");
-                return;
-            }
+//            if (mBluetoothDevice == null) {
+//                Log.d(TAG, "No device found.");
+//                return;
+//            }
 
             try {
                 // Create the socket
@@ -379,6 +385,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 case CMD_GETLOGS:
                     break;
                 case CMD_GETBARCODE:
+                    break;
+                case CMD_GETSTATUS:
+                    if (response != RES_NAK) {
+                        mDeviceState = Integer.parseInt(response);
+                        UpdateUi(mDeviceState);
+                    }
                     break;
 
                 default:
@@ -639,7 +651,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //    Yes, Read DeviceState value of WdP
         if (!mDeviceAddress.equals("")) {
  //           mButton_Connect.setEnabled(true);
-            SendCommand(CMD_GETCONFIG);
+            connect();
+            SendCommand(CMD_GETSTATUS);
         }
 
         // [接続]ボタンを押す
@@ -738,9 +751,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return;
         }
 
-        if (null != mBluetoothGatt) {    // mBluetoothGattがnullでないなら接続済みか、接続中。
+        if (mBluetoothDevice != null){
             return;
         }
+//        if (null != mBluetoothGatt) {    // mBluetoothGattがnullでないなら接続済みか、接続中。
+//            return;
+//        }
 
         // 接続
 //        BluetoothDevice device = mBluetoothAdapter.getRemoteDevice( mDeviceAddress );

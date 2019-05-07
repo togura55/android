@@ -24,5 +24,5 @@ public interface Constants {
     public static final int MESSAGE_POWEROFF = 8;
     public static final int MESSAGE_GETLOGS = 9;
     public static final int MESSAGE_GETBARCODE = 10;
-
+    public static final int MESSAGE_GETSTATUS = 11;
 }
