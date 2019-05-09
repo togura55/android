@@ -185,6 +185,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 case Constants.MESSAGE_GETSTATUS:
                     break;
 
+                case Constants.MESSAGE_UPDATEUI:
+                    UpdateUi((int) msg.obj);
+                    break;
+
                 case Constants.MESSAGE_BT:
                     s = (String) msg.obj;
                     if (s != null) {
@@ -234,6 +238,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //            }
 
             try {
+
                 // Create the socket
                 bluetoothSocket = mBluetoothDevice.createRfcommSocketToServiceRecord(
                         Constants.BT_UUID);
@@ -257,16 +262,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         dataInputStream = new DataInputStream(bluetoothSocket.getInputStream());
                         dataOutputStream = new DataOutputStream(bluetoothSocket.getOutputStream());
 
-                        // Send Command
-//                        String command = "getversion";   // <- length = 10
+                        // Send Command and receive response
 
                         if (BtCommand.length() > 0) {
-//                            int size = BtCommand.length();
-//                            int intByteSize = 4;
-//                            ByteBuffer byteBuf = ByteBuffer.allocate(intByteSize);
-//                            byteBuf.putLong(size);
-//                            int send = byteBuf.getInt();
-//                            dataOutputStream.writeInt(send);
 
                             int size = BtCommand.length();
                             dataOutputStream.writeInt(size);
@@ -276,8 +274,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                             // Read Response
                             int incomingBytes = dataInputStream.read(incomingBuff);
-                            byte[] buff = new byte[incomingBytes];
-                            System.arraycopy(incomingBuff, 0, buff, 0, incomingBytes);
+                            int nHeader = 4;
+                            byte[] buff = new byte[incomingBytes - nHeader];
+                            System.arraycopy(incomingBuff, nHeader, buff, 0, incomingBytes - nHeader);
                             String s = new String(buff, StandardCharsets.UTF_8);
 
                             ResponseDispatcher(BtCommand, s);
@@ -312,8 +311,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     void ResponseDispatcher(String command, String response) {
-
         try {
+            Boolean updateUi = false;
+
             switch (command) {
                 case CMD_GETCONFIG:
                     // decode
@@ -341,16 +341,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         mClientIpAddress = list.get(++i);    // added 1.0.2
                     }
 
-                    UpdateUi(mDeviceState);
-
                     handler.obtainMessage(
                             Constants.MESSAGE_GETCONFIG, response)
                             .sendToTarget();
                     break;
                 case CMD_SETCONFIG:  // setconfig,aaa,bbb,ccc
-                    handler.obtainMessage(
-                            Constants.MESSAGE_SETCONFIG, response)
-                            .sendToTarget();
                     break;
                 case CMD_GETVERSION:
                     mWdpVersion = response;
@@ -360,27 +355,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     break;
                 case CMD_START:       // Publisher state
                     mDeviceState = PUBLISHER_STATE_ACTIVE;
-                    UpdateUi(mDeviceState);
+                    updateUi = true;
                     break;
                 case CMD_STOP:         // Publisher state
                     mDeviceState = PUBLISHER_STATE_NEUTRAL;
-                    UpdateUi(mDeviceState);
+                    updateUi = true;
                     break;
                 case CMD_SUSPEND:   // Publisher state
                     mDeviceState = PUBLISHER_STATE_IDLE;
-                    UpdateUi(mDeviceState);
+                    updateUi = true;
                     break;
                 case CMD_RESUME:     // Publisher state
                     mDeviceState = PUBLISHER_STATE_ACTIVE;
-                    UpdateUi(mDeviceState);
+                    updateUi = true;
                     break;
                 case CMD_RESTART:
                     mDeviceState = PUBLISHER_STATE_DISCONNECTED;
-                    UpdateUi(mDeviceState);
+                    updateUi = true;
                     break;
                 case CMD_POWEROFF:
                     mDeviceState = PUBLISHER_STATE_DISCONNECTED;
-                    UpdateUi(mDeviceState);
+                    updateUi = true;
                     break;
                 case CMD_GETLOGS:
                     break;
@@ -389,13 +384,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 case CMD_GETSTATUS:
                     if (response != RES_NAK) {
                         mDeviceState = Integer.parseInt(response);
-                        UpdateUi(mDeviceState);
+                        updateUi = true;
                     }
                     break;
-
                 default:
                     break;
             }
+
+            if (updateUi)
+                handler.obtainMessage(
+                        Constants.MESSAGE_UPDATEUI, mDeviceState)
+                        .sendToTarget();
+
         }catch(IOException ex) {
             ex.printStackTrace();
         }
@@ -465,9 +465,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         // just for the demo
-        mDeviceName = "Wacom Clipboard";
-        mServerIpAddress = "192.168.0.7";
-        mServerPortNumberBase = "1337";
+//        mDeviceName = "Wacom Clipboard";
+//        mServerIpAddress = "192.168.0.7";
+//        mServerPortNumberBase = "1337";
 
         // GUI items
         mButton_Connect = findViewById(R.id.button_connect);
@@ -551,6 +551,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void SendCommand(String command){
+        connect();
+
         CommandState = command;
         btClientThread = new BTClientThread(command);
         btClientThread.start();
@@ -646,12 +648,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mEditText_PortNumber.setText(mServerPortNumberBase);
 
 
-        // Try GetConfig if the device address is not empty
+        // Try GetStatus if the device address is not empty
         //   Is WdP device？
         //    Yes, Read DeviceState value of WdP
         if (!mDeviceAddress.equals("")) {
- //           mButton_Connect.setEnabled(true);
-            connect();
             SendCommand(CMD_GETSTATUS);
         }
 

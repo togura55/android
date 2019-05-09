@@ -12,6 +12,7 @@ public interface Constants {
 
     public static final int MESSAGE_BT = 100;
     public static final int MESSAGE_TEMP = 101;
+    public static final int MESSAGE_UPDATEUI = 102;
 
     public static final int MESSAGE_GETCONFIG = 0;
     public static final int MESSAGE_SETCONFIG = 1;
