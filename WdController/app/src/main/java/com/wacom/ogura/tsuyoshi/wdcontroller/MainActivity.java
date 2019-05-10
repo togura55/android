@@ -89,6 +89,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private BluetoothGatt mBluetoothGatt = null;    // Gattサービスの検索、キャラスタリスティックの読み書き
     private BluetoothDevice mBluetoothDevice = null;
 
+    private DataInputStream mDataInputStream = null;
+    private DataOutputStream mDataOutputStream = null;
+    private BluetoothSocket mBluetoothSocket = null;
+    private Boolean mBTSocketConnected = false;
+
     private String mWdpVersion;
     private String mWidth;
     private String mHeight;
@@ -102,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private String mBarcode;               // added 1.1
     private String mServerIpAddress;
     private String mServerPortNumberBase;
-    private int mDeviceState  = PUBLISHER_STATE_DISCONNECTED;
+    private int mDeviceState = PUBLISHER_STATE_DISCONNECTED;
     private String mClientIpAddress;    // added 1.0.2
 
     // GUI items
@@ -133,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     BTClientThread btClientThread;
 
-    void ShowToaster(final String s){
+    void ShowToaster(final String s) {
         if (s != null) {
             MainActivity.this.runOnUiThread(new Runnable() {
                 public void run() {
@@ -142,6 +147,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             });
         }
     }
+
     final Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -159,6 +165,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     break;
                 case Constants.MESSAGE_GETVERSION:
                     mTextView_WdpVersion.setText(mWdpVersion);
+                    mButton_getVersion.setEnabled(true);
                     break;
                 case Constants.MESSAGE_START:       // Publisher state
                     ShowToaster((String) msg.obj);
@@ -219,14 +226,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public class BTClientThread extends Thread {
 
-        DataInputStream dataInputStream;
-        DataOutputStream dataOutputStream;
-        BluetoothSocket bluetoothSocket;
+//        DataInputStream dataInputStream;
+//        DataOutputStream dataOutputStream;
+//        BluetoothSocket bluetoothSocket;
 
         private String BtCommand;
+        private DataInputStream dataInputStream;
+        private DataOutputStream dataOutputStream;
 
-        BTClientThread(String command) {
+        BTClientThread(String command, DataOutputStream output, DataInputStream input) {
             BtCommand = command;
+            dataOutputStream = output;
+            dataInputStream = input;
         }
 
         public void run() {
@@ -237,76 +248,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //                return;
 //            }
 
-            try {
+            while (true) {
+                if (Thread.interrupted()) {
+                    break;
+                }
 
-                // Create the socket
-                bluetoothSocket = mBluetoothDevice.createRfcommSocketToServiceRecord(
-                        Constants.BT_UUID);
+                try {
+                    // Send Command and receive response
+                    if (BtCommand.length() > 0) {
 
-                while (true) {
-                    if (Thread.interrupted()) {
+                        int size = BtCommand.length();
+                        dataOutputStream.writeInt(size);
+
+                        byte[] buf = BtCommand.getBytes("UTF-8");
+                        dataOutputStream.write(buf, 0, buf.length);
+
+                        // Read Response
+                        int incomingBytes = dataInputStream.read(incomingBuff);
+                        int nHeader = 4;
+                        byte[] buff = new byte[incomingBytes - nHeader];
+                        System.arraycopy(incomingBuff, nHeader, buff, 0, incomingBytes - nHeader);
+                        String s = new String(buff, StandardCharsets.UTF_8);
+
+                        ResponseDispatcher(BtCommand, s);
+
                         break;
                     }
-
-                    try {
-                        // Connect to the created socket
-                        bluetoothSocket.connect();
-
-                        // send message to handler
-                        handler.obtainMessage(
-                                Constants.MESSAGE_BT,
-                                R.string.connect + " " + mBluetoothDevice.getName())
-                                .sendToTarget();
-
-                        OutputStream os = bluetoothSocket.getOutputStream();
-                        dataInputStream = new DataInputStream(bluetoothSocket.getInputStream());
-                        dataOutputStream = new DataOutputStream(bluetoothSocket.getOutputStream());
-
-                        // Send Command and receive response
-
-                        if (BtCommand.length() > 0) {
-
-                            int size = BtCommand.length();
-                            dataOutputStream.writeInt(size);
-
-                            byte[] buf = BtCommand.getBytes("UTF-8");
-                            dataOutputStream.write(buf, 0, buf.length);
-
-                            // Read Response
-                            int incomingBytes = dataInputStream.read(incomingBuff);
-                            int nHeader = 4;
-                            byte[] buff = new byte[incomingBytes - nHeader];
-                            System.arraycopy(incomingBuff, nHeader, buff, 0, incomingBytes - nHeader);
-                            String s = new String(buff, StandardCharsets.UTF_8);
-
-                            ResponseDispatcher(BtCommand, s);
-
-                            break;
-                        }
-                    } catch (
-                            IOException e) {
-                        e.printStackTrace();
-                    }
-
-                    // 閉じる
-                    if (bluetoothSocket != null) {
-                        try {
-                            bluetoothSocket.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        bluetoothSocket = null;
-                    }
-
-                    handler.obtainMessage(
-                            Constants.MESSAGE_BT,
-                            "DISCONNECTED - Exit BTClientThread")
-                            .sendToTarget();
+                } catch (
+                        IOException e) {
+                    e.printStackTrace();
                 }
-            } catch (
-                    IOException e) {
-                e.printStackTrace();
             }
+
         }
     }
 
@@ -317,7 +290,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             switch (command) {
                 case CMD_GETCONFIG:
                     // decode
- //                   List<String> list = SplitArgument(",", response);
+                    //                   List<String> list = SplitArgument(",", response);
                     List<String> list = Arrays.asList(response.split(","));
                     if (list.size() < 13)   // ToDo: should be set by enum
                     {
@@ -396,13 +369,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         Constants.MESSAGE_UPDATEUI, mDeviceState)
                         .sendToTarget();
 
-        }catch(IOException ex) {
+        } catch (IOException ex) {
             ex.printStackTrace();
         }
     }
 
-    void UpdateUi(int state){
-        switch (state){
+    void UpdateUi(int state) {
+        switch (state) {
             case PUBLISHER_STATE_DISCONNECTED:
                 mButton_Connect.setEnabled(false);    // Connect button
                 mButton_Disconnect.setEnabled(false);    // Disconnect button
@@ -550,11 +523,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // ---- End of RfComm -----
     }
 
-    private void SendCommand(String command){
+    private void SendCommand(String command) {
         connect();
 
         CommandState = command;
-        btClientThread = new BTClientThread(command);
+        btClientThread = new BTClientThread(command, mDataOutputStream, mDataInputStream);
         btClientThread.start();
     }
 
@@ -751,7 +724,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return;
         }
 
-        if (mBluetoothDevice != null){
+        if (mBluetoothDevice != null) {
             return;
         }
 //        if (null != mBluetoothGatt) {    // mBluetoothGattがnullでないなら接続済みか、接続中。
@@ -759,15 +732,32 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        }
 
         // 接続
-//        BluetoothDevice device = mBluetoothAdapter.getRemoteDevice( mDeviceAddress );
         mBluetoothDevice = mBluetoothAdapter.getRemoteDevice(mDeviceAddress);
 
-//        mBluetoothGatt = device.connectGatt( this, false, mGattCallback );
+        try {
+            // Create the socket
+            if (mBluetoothSocket == null)
+                mBluetoothSocket = mBluetoothDevice.createRfcommSocketToServiceRecord(
+                        Constants.BT_UUID);
 
-        // --- RfComm ------
-//        btClientThread = new BTClientThread(CMD_GETVERSION);
-//        btClientThread.start();
-        // ---- End of RfComm -----
+            // Connect to the created socket
+            if (!mBTSocketConnected) {
+                mBluetoothSocket.connect();
+                mBTSocketConnected = true;
+                // send message to handler
+                handler.obtainMessage(
+                        Constants.MESSAGE_BT,
+                        R.string.connect + " " + mBluetoothDevice.getName())
+                        .sendToTarget();
+
+                //                        OutputStream os = bluetoothSocket.getOutputStream();
+                mDataInputStream = new DataInputStream(mBluetoothSocket.getInputStream());
+                mDataOutputStream = new DataOutputStream(mBluetoothSocket.getOutputStream());
+            }
+        } catch (
+                IOException e) {
+            e.printStackTrace();
+        }
     }
 
     // 切断
@@ -776,6 +766,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (btClientThread != null) {
             btClientThread.interrupt();
             btClientThread = null;
+        }
+
+        // Close BluetoothSocket
+        if (mBTSocketConnected) {
+            if (mBluetoothSocket != null) {
+                try {
+                    mDataInputStream.close();
+                    mDataOutputStream.close();
+                    mBluetoothSocket.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                mDataInputStream = null;
+                mDataOutputStream = null;
+                mBluetoothSocket = null;
+
+                mBTSocketConnected = false;
+
+                handler.obtainMessage(
+                        Constants.MESSAGE_BT,
+                        "DISCONNECTED - Close BluetoothSocket")
+                        .sendToTarget();
+            }
         }
         // ------------------
 
