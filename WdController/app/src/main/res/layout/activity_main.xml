@@ -87,22 +87,16 @@
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/button_connect"
+                    android:id="@+id/button_disconnect"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/connect"
+                    android:text="@string/disconnect"
                     android:textSize="18sp" />
 
                 <Space
                     android:layout_width="5dp"
                     android:layout_height="wrap_content" />
 
-                <Button
-                    android:id="@+id/button_disconnect"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/disconnect"
-                    android:textSize="18sp" />
             </LinearLayout>
 
             <View
@@ -270,36 +264,10 @@
                     android:layout_height="wrap_content" />
 
                 <Button
-                    android:id="@+id/button_deviceStop"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/deviceStop"
-                    android:textSize="18sp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:orientation="horizontal">
-
-                <Button
                     android:id="@+id/button_deviceSuspend"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/deviceSuspend"
-                    android:textSize="18sp" />
-
-                <Space
-                    android:layout_width="5dp"
-                    android:layout_height="wrap_content" />
-
-                <Button
-                    android:id="@+id/button_deviceResume"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/deviceResume"
                     android:textSize="18sp" />
 
             </LinearLayout>

@@ -111,15 +111,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private String mClientIpAddress;    // added 1.0.2
 
     // GUI items
-    private Button mButton_Connect;    // Connect button
     private Button mButton_Disconnect;    // Disconnect button
     private Button mButton_getVersion;
     private Button mButton_getConfig;
     private Button mButton_setConfig;
     private Button mButton_deviceStart;
-    private Button mButton_deviceStop;
     private Button mButton_deviceSuspend;
-    private Button mButton_deviceResume;
     private Button mButton_devicePowerOff;
     private Button mButton_deviceRestart;
 
@@ -377,51 +374,54 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     void UpdateUi(int state) {
         switch (state) {
             case PUBLISHER_STATE_DISCONNECTED:
-                mButton_Connect.setEnabled(false);    // Connect button
                 mButton_Disconnect.setEnabled(false);    // Disconnect button
+                mButton_Disconnect.setText(getString(R.string.disconnect));
                 mButton_getVersion.setEnabled(false);
                 mButton_getConfig.setEnabled(false);
                 mButton_setConfig.setEnabled(false);
                 mButton_deviceStart.setEnabled(false);
-                mButton_deviceStop.setEnabled(false);
+                mButton_deviceStart.setText(getString(R.string.deviceStart));
                 mButton_deviceSuspend.setEnabled(false);
-                mButton_deviceResume.setEnabled(false);
+                mButton_deviceSuspend.setText(getString(R.string.deviceSuspend));
                 mButton_devicePowerOff.setEnabled(false);
                 mButton_deviceRestart.setEnabled(false);
                 break;
             case PUBLISHER_STATE_NEUTRAL:
+                mButton_Disconnect.setEnabled(true);
+                mButton_Disconnect.setText(getString(R.string.disconnect));
                 mButton_getVersion.setEnabled(true);
                 mButton_getConfig.setEnabled(true);
                 mButton_setConfig.setEnabled(true);
-
                 mButton_deviceStart.setEnabled(true);
-                mButton_deviceStop.setEnabled(false);
+                mButton_deviceStart.setText(getString(R.string.deviceStart));
                 mButton_deviceSuspend.setEnabled(false);
-                mButton_deviceResume.setEnabled(false);
+                mButton_deviceSuspend.setText(getString(R.string.deviceSuspend));
                 mButton_devicePowerOff.setEnabled(true);
                 mButton_deviceRestart.setEnabled(true);
                 break;
             case PUBLISHER_STATE_ACTIVE:
+                mButton_Disconnect.setEnabled(true);
+                mButton_Disconnect.setText(getString(R.string.disconnect));
                 mButton_getVersion.setEnabled(true);
                 mButton_getConfig.setEnabled(true);
                 mButton_setConfig.setEnabled(true);
-
                 mButton_deviceStart.setEnabled(false);
-                mButton_deviceStop.setEnabled(true);
+                mButton_deviceStart.setText(getString(R.string.deviceStop));
                 mButton_deviceSuspend.setEnabled(true);
-                mButton_deviceResume.setEnabled(false);
+                mButton_deviceSuspend.setText(getString(R.string.deviceSuspend));
                 mButton_devicePowerOff.setEnabled(true);
                 mButton_deviceRestart.setEnabled(true);
                 break;
             case PUBLISHER_STATE_IDLE:
+                mButton_Disconnect.setEnabled(true);
+                mButton_Disconnect.setText(getString(R.string.disconnect));
                 mButton_getVersion.setEnabled(true);
                 mButton_getConfig.setEnabled(true);
                 mButton_setConfig.setEnabled(true);
-
                 mButton_deviceStart.setEnabled(false);
-                mButton_deviceStop.setEnabled(true);
+                mButton_deviceStart.setText(getString(R.string.deviceStop));
                 mButton_deviceSuspend.setEnabled(false);
-                mButton_deviceResume.setEnabled(true);
+                mButton_deviceSuspend.setText(getString(R.string.deviceResume));
                 mButton_devicePowerOff.setEnabled(true);
                 mButton_deviceRestart.setEnabled(true);
                 break;
@@ -443,8 +443,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        mServerPortNumberBase = "1337";
 
         // GUI items
-        mButton_Connect = findViewById(R.id.button_connect);
-        mButton_Connect.setOnClickListener(this);
         mButton_Disconnect = findViewById(R.id.button_disconnect);
         mButton_Disconnect.setOnClickListener(this);
         mButton_getVersion = findViewById(R.id.button_getVersion);
@@ -455,12 +453,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mButton_setConfig.setOnClickListener(this);
         mButton_deviceStart = findViewById(R.id.button_deviceStart);
         mButton_deviceStart.setOnClickListener(this);
-        mButton_deviceStop = findViewById(R.id.button_deviceStop);
-        mButton_deviceStop.setOnClickListener(this);
         mButton_deviceSuspend = findViewById(R.id.button_deviceSuspend);
         mButton_deviceSuspend.setOnClickListener(this);
-        mButton_deviceResume = findViewById(R.id.button_deviceResume);
-        mButton_deviceResume.setOnClickListener(this);
         mButton_devicePowerOff = findViewById(R.id.button_devicePowerOff);
         mButton_devicePowerOff.setOnClickListener(this);
         mButton_deviceRestart = findViewById(R.id.button_deviceRestart);
@@ -535,11 +529,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         Toast.makeText(this, "onClick is invoked.", Toast.LENGTH_SHORT).show();
 
-        if (mButton_Connect.getId() == v.getId()) {
-            mButton_Connect.setEnabled(false);    // [接続]ボタンの無効化（連打対策）
-            connect();            // connect
-            return;
-        }
         if (mButton_Disconnect.getId() == v.getId()) {
             mButton_Disconnect.setEnabled(false);    // [切断]ボタンの無効化（連打対策）
             disconnect();            // disconnect
@@ -562,17 +551,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mButton_deviceStart.setEnabled(false);    // 無効化（連打対策）
             SendCommand(CMD_START);
         }
-        if (mButton_deviceStop.getId() == v.getId()) {
-            mButton_deviceStop.setEnabled(false);    // 無効化（連打対策）
-            SendCommand(CMD_STOP);
-        }
         if (mButton_deviceSuspend.getId() == v.getId()) {
             mButton_deviceSuspend.setEnabled(false);    // 無効化（連打対策）
             SendCommand(CMD_SUSPEND);
-        }
-        if (mButton_deviceResume.getId() == v.getId()) {
-            mButton_deviceResume.setEnabled(false);    // 無効化（連打対策）
-            SendCommand(CMD_RESUME);
         }
         if (mButton_devicePowerOff.getId() == v.getId()) {
             mButton_devicePowerOff.setEnabled(false);    // 無効化（連打対策）
@@ -808,8 +789,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        mBluetoothGatt = null;
         // GUIアイテムの有効無効の設定
         // [接続]ボタンのみ有効にする
-        mButton_Connect.setEnabled(true);
-        mButton_Disconnect.setEnabled(false);
+//        mButton_Connect.setEnabled(true);
+       mButton_Disconnect.setEnabled(false);
     }
 
     // GATTキャラクタリスティックの読み込み
