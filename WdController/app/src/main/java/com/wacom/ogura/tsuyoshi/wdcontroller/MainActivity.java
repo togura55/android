@@ -223,10 +223,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public class BTClientThread extends Thread {
 
-//        DataInputStream dataInputStream;
-//        DataOutputStream dataOutputStream;
-//        BluetoothSocket bluetoothSocket;
-
         private String BtCommand;
         private DataInputStream dataInputStream;
         private DataOutputStream dataOutputStream;
@@ -385,6 +381,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 mButton_deviceSuspend.setText(getString(R.string.deviceSuspend));
                 mButton_devicePowerOff.setEnabled(false);
                 mButton_deviceRestart.setEnabled(false);
+                mEditText_DeviceName.setText(""); // set empty
+                mEditText_IpAddress.setText("");
+                mEditText_PortNumber.setText("");
                 break;
             case PUBLISHER_STATE_NEUTRAL:
                 mButton_Disconnect.setEnabled(true);
@@ -408,7 +407,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 mButton_deviceStart.setEnabled(false);
                 mButton_deviceStart.setText(getString(R.string.deviceStop));
                 mButton_deviceSuspend.setEnabled(true);
-                mButton_deviceSuspend.setText(getString(R.string.deviceSuspend));
                 mButton_devicePowerOff.setEnabled(true);
                 mButton_deviceRestart.setEnabled(true);
                 break;
@@ -421,7 +419,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 mButton_deviceStart.setEnabled(false);
                 mButton_deviceStart.setText(getString(R.string.deviceStop));
                 mButton_deviceSuspend.setEnabled(false);
-                mButton_deviceSuspend.setText(getString(R.string.deviceResume));
                 mButton_devicePowerOff.setEnabled(true);
                 mButton_deviceRestart.setEnabled(true);
                 break;
@@ -430,7 +427,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
     // ----- End of RfComm -----------------
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -497,17 +493,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Log.d(TAG, "onCreate");
 
-        //       setContentView(R.layout.activity_main);
-
-        // Find Views
-        //   btStatusTextView = (TextView) findViewById(R.id.btStatusTextView);
-        //  tempTextView = (TextView) findViewById(R.id.tempTextView);
-
-
-//        if (savedInstanceState != null) {
-//            String temp = savedInstanceState.getString(Constants.STATE_TEMP);
-////            tempTextView.setText(temp);
-//        }
 
         // Initialize Bluetooth
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -549,11 +534,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         if (mButton_deviceStart.getId() == v.getId()) {
             mButton_deviceStart.setEnabled(false);    // 無効化（連打対策）
-            SendCommand(CMD_START);
+
+            String s = getString(R.string.deviceStart);
+            String c = CMD_START;
+            if(mDeviceState == PUBLISHER_STATE_NEUTRAL) {
+                s = getString(R.string.deviceStop);
+                c = CMD_START;
+            }
+            else if (mDeviceState == PUBLISHER_STATE_ACTIVE || mDeviceState == PUBLISHER_STATE_IDLE) {
+                s = getString(R.string.deviceStart);
+                c = CMD_STOP;
+            }
+            mButton_deviceStart.setText(s);
+            SendCommand(c);
         }
         if (mButton_deviceSuspend.getId() == v.getId()) {
             mButton_deviceSuspend.setEnabled(false);    // 無効化（連打対策）
-            SendCommand(CMD_SUSPEND);
+
+            String s = getString(R.string.deviceSuspend);
+            String c = CMD_SUSPEND;
+            if(mDeviceState == PUBLISHER_STATE_NEUTRAL || mDeviceState == PUBLISHER_STATE_ACTIVE ) {
+                s = getString(R.string.deviceSuspend);
+                c = CMD_RESUME;
+            }
+            else if (mDeviceState == PUBLISHER_STATE_IDLE) {
+                s = getString(R.string.deviceResume);
+                c = CMD_SUSPEND;
+            }
+            mButton_deviceSuspend.setText(s);
+            SendCommand(c);
         }
         if (mButton_devicePowerOff.getId() == v.getId()) {
             mButton_devicePowerOff.setEnabled(false);    // 無効化（連打対策）
@@ -583,24 +592,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
 
-//        // --- RfComm ------
-        // for Auto connect/disconnect
-//        btClientThread = new BTClientThread();
-//        btClientThread.start();
-//        // ---- End of RfComm -----
-
-
         // Android端末のBluetooth機能の有効化要求
         requestBluetoothFeature();
 
         // GUIアイテムの有効無効の設定
-//        mButton_Connect.setEnabled( false );
-//        mButton_Disconnect.setEnabled( false );
-
         mEditText_DeviceName.setText(mDeviceName);
         mEditText_IpAddress.setText(mServerIpAddress);
         mEditText_PortNumber.setText(mServerPortNumberBase);
-
 
         // Try GetStatus if the device address is not empty
         //   Is WdP device？
@@ -617,14 +615,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onPause() {
         super.onPause();
-
-        // ---- RfComm -----
-        // Auto connect/disconnect
-//        if(btClientThread != null){
-//            btClientThread.interrupt();
-//            btClientThread = null;
-//        }
-        // --- End of RfComm ----
 
         // 切断
         disconnect();
@@ -773,24 +763,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         // ------------------
 
-        // commented out cause No use of GATT
-//        if( null == mBluetoothGatt )
-//        {
-//            return;
-//        }
-
-        // 切断
-        //   mBluetoothGatt.disconnect()ではなく、mBluetoothGatt.close()しオブジェクトを解放する。
-        //   理由：「ユーザーの意思による切断」と「接続範囲から外れた切断」を区別するため。
-        //   ①「ユーザーの意思による切断」は、mBluetoothGattオブジェクトを解放する。再接続は、オブジェクト構築から。
-        //   ②「接続可能範囲から外れた切断」は、内部処理でmBluetoothGatt.disconnect()処理が実施される。
-        //     切断時のコールバックでmBluetoothGatt.connect()を呼んでおくと、接続可能範囲に入ったら自動接続する。
-//        mBluetoothGatt.close();
-//        mBluetoothGatt = null;
-        // GUIアイテムの有効無効の設定
-        // [接続]ボタンのみ有効にする
-//        mButton_Connect.setEnabled(true);
-       mButton_Disconnect.setEnabled(false);
+        // set the state and update UI
+        mDeviceState = PUBLISHER_STATE_DISCONNECTED;
+        handler.obtainMessage(
+                Constants.MESSAGE_UPDATEUI, mDeviceState)
+                .sendToTarget();
     }
 
     // GATTキャラクタリスティックの読み込み
@@ -802,25 +779,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mBluetoothGatt.readCharacteristic(bleChar);
     }
 
-    // GATTキャラクタリスティック通知の設定
-    private void setCharacteristicNotification(UUID uuid_service, UUID uuid_characteristic, boolean enable) {
-        if (null == mBluetoothGatt) {
-            return;
-        }
-        BluetoothGattCharacteristic bleChar = mBluetoothGatt.getService(uuid_service).getCharacteristic(uuid_characteristic);
-        mBluetoothGatt.setCharacteristicNotification(bleChar, enable);
-        BluetoothGattDescriptor descriptor = bleChar.getDescriptor(UUID_NOTIFY);
-        descriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
-        mBluetoothGatt.writeDescriptor(descriptor);
-    }
-
-    // GATTキャラクタリスティックの書き込み
-    private void writeCharacteristic(UUID uuid_service, UUID uuid_characteristic, String string) {
-        if (null == mBluetoothGatt) {
-            return;
-        }
-        BluetoothGattCharacteristic bleChar = mBluetoothGatt.getService(uuid_service).getCharacteristic(uuid_characteristic);
-        bleChar.setValue(string);
-        mBluetoothGatt.writeCharacteristic(bleChar);
-    }
+//    // GATTキャラクタリスティック通知の設定
+//    private void setCharacteristicNotification(UUID uuid_service, UUID uuid_characteristic, boolean enable) {
+//        if (null == mBluetoothGatt) {
+//            return;
+//        }
+//        BluetoothGattCharacteristic bleChar = mBluetoothGatt.getService(uuid_service).getCharacteristic(uuid_characteristic);
+//        mBluetoothGatt.setCharacteristicNotification(bleChar, enable);
+//        BluetoothGattDescriptor descriptor = bleChar.getDescriptor(UUID_NOTIFY);
+//        descriptor.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
+//        mBluetoothGatt.writeDescriptor(descriptor);
+//    }
+//
+//    // GATTキャラクタリスティックの書き込み
+//    private void writeCharacteristic(UUID uuid_service, UUID uuid_characteristic, String string) {
+//        if (null == mBluetoothGatt) {
+//            return;
+//        }
+//        BluetoothGattCharacteristic bleChar = mBluetoothGatt.getService(uuid_service).getCharacteristic(uuid_characteristic);
+//        bleChar.setValue(string);
+//        mBluetoothGatt.writeCharacteristic(bleChar);
+//    }
 }
