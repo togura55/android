@@ -18,6 +18,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputFilter;
+import android.text.InputType;
+import android.text.Spanned;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -73,15 +76,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private final String RES_NAK = "nak";
 
     private int State;      // a current state of the WdC, set one of the STATE_XXX value
-    private final int STATE_NEUTRAL = 0; // initial state
-    private final int STATE_READY = 1;   // Scan BLE completed
-    private final int STATE_ACTIVE = 2;  // under handling BLE device
+    private final int STATE_START = 0; // initial state, just the ScanAndConnect completed
+    private final int STATE_NEUTRAL = 1; // neutral state
+    private final int STATE_READY = 2;   // Scan BLE completed
+    private final int STATE_ACTIVE = 3;  // under handling BLE device
 
     //        public int PublisherCurrentState;
     private final int PUBLISHER_STATE_DISCONNECTED = -1;
-    private final int PUBLISHER_STATE_NEUTRAL = 0;
-    private final int PUBLISHER_STATE_ACTIVE = 1;
-    private final int PUBLISHER_STATE_IDLE = 2;
+    private final int PUBLISHER_STATE_START = 0;
+    private final int PUBLISHER_STATE_NEUTRAL = 1;
+    private final int PUBLISHER_STATE_ACTIVE = 2;
+    private final int PUBLISHER_STATE_IDLE = 3;
 
     // member valuables
     private BluetoothAdapter mBluetoothAdapter;    // BluetoothAdapter : Bluetooth処理で必要
@@ -156,9 +161,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     mEditText_DeviceName.setText(mDeviceName);
                     mEditText_IpAddress.setText(mServerIpAddress);
                     mEditText_PortNumber.setText(mServerPortNumberBase);
+                    mButton_getConfig.setEnabled(true);
                     break;
                 case Constants.MESSAGE_SETCONFIG:  // setconfig,aaa,bbb,ccc
                     ShowToaster((String) msg.obj);
+                    mButton_setConfig.setEnabled(true);
                     break;
                 case Constants.MESSAGE_GETVERSION:
                     mTextView_WdpVersion.setText(mWdpVersion);
@@ -234,7 +241,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         public void run() {
-            byte[] incomingBuff = new byte[64];
+            byte[] incomingBuff = new byte[256]; // ToDo: need to be set buffer size dynamically
 
 //            if (mBluetoothDevice == null) {
 //                Log.d(TAG, "No device found.");
@@ -276,9 +283,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    void ResponseDispatcher(String command, String response) {
+    void ResponseDispatcher(String commandPacket, String response) {
+        Boolean updateUi = false;
+        String command;
+
         try {
-            Boolean updateUi = false;
+            List<String> commandList = Arrays.asList(commandPacket.split(","));
+            if (commandList.size() > 1){
+                command = commandList.get(0);
+            }
+            else {
+                command = commandPacket;
+            }
 
             switch (command) {
                 case CMD_GETCONFIG:
@@ -312,6 +328,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             .sendToTarget();
                     break;
                 case CMD_SETCONFIG:  // setconfig,aaa,bbb,ccc
+
+                    handler.obtainMessage(
+                            Constants.MESSAGE_SETCONFIG, response)
+                            .sendToTarget();
                     break;
                 case CMD_GETVERSION:
                     mWdpVersion = response;
@@ -370,6 +390,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     void UpdateUi(int state) {
         switch (state) {
             case PUBLISHER_STATE_DISCONNECTED:
+            case PUBLISHER_STATE_START:
                 mButton_Disconnect.setEnabled(false);    // Disconnect button
                 mButton_Disconnect.setText(getString(R.string.disconnect));
                 mButton_getVersion.setEnabled(false);
@@ -428,6 +449,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
     // ----- End of RfComm -----------------
 
+    // フィルターを作成
+    InputFilter inputFilter = new InputFilter() {
+        @Override
+        public CharSequence filter(CharSequence source, int start, int end,
+                                   Spanned dest, int dstart, int dend) {
+            if (source.toString().matches("^[0-9a-zA-Z@¥.¥_¥¥-]+$")) {
+                return source;
+            } else {
+                return "";
+            }
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -459,6 +493,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mEditText_DeviceName = findViewById(R.id.edit_deviceName);
         mEditText_IpAddress = findViewById(R.id.edit_ipAddress);
         mEditText_PortNumber = findViewById(R.id.edit_portNumber);
+
+//        // フィルターの配列を作成
+//        InputFilter[] filters = new InputFilter[] { inputFilter };
+//
+//        mEditText_IpAddress.setFilters(filters);
+//        mEditText_PortNumber.setFilters(filters);
 
         mTextView_WdpVersion = findViewById(R.id.textview_wdpversion);
 
@@ -502,11 +542,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // ---- End of RfComm -----
     }
 
-    private void SendCommand(String command) {
+    private void SendCommand(String command, String params) {
         connect();
 
         CommandState = command;
-        btClientThread = new BTClientThread(command, mDataOutputStream, mDataInputStream);
+        String CommandParams;
+        if (params == null)
+            CommandParams = command;
+        else
+            CommandParams = command + "," + params;
+
+        btClientThread = new BTClientThread(CommandParams, mDataOutputStream, mDataInputStream);
         btClientThread.start();
     }
 
@@ -521,16 +567,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         if (mButton_getVersion.getId() == v.getId()) {
             mButton_getVersion.setEnabled(false);    // 無効化（連打対策）
-            SendCommand(CMD_GETVERSION);
+            SendCommand(CMD_GETVERSION, null);
             return;
         }
         if (mButton_getConfig.getId() == v.getId()) {
             mButton_getConfig.setEnabled(false);    // 無効化（連打対策）
-            SendCommand(CMD_GETCONFIG);
+            SendCommand(CMD_GETCONFIG, null);
         }
         if (mButton_setConfig.getId() == v.getId()) {
             mButton_setConfig.setEnabled(false);    // 無効化（連打対策）
-            SendCommand(CMD_SETCONFIG);
+            String params = mEditText_DeviceName.getText() + "," +
+                    mEditText_IpAddress.getText() + "," +
+                    mEditText_PortNumber.getText();
+            SendCommand(CMD_SETCONFIG, params);
         }
         if (mButton_deviceStart.getId() == v.getId()) {
             mButton_deviceStart.setEnabled(false);    // 無効化（連打対策）
@@ -546,7 +595,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 c = CMD_STOP;
             }
             mButton_deviceStart.setText(s);
-            SendCommand(c);
+            SendCommand(c, null);
         }
         if (mButton_deviceSuspend.getId() == v.getId()) {
             mButton_deviceSuspend.setEnabled(false);    // 無効化（連打対策）
@@ -562,15 +611,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 c = CMD_SUSPEND;
             }
             mButton_deviceSuspend.setText(s);
-            SendCommand(c);
+            SendCommand(c, null);
         }
         if (mButton_devicePowerOff.getId() == v.getId()) {
             mButton_devicePowerOff.setEnabled(false);    // 無効化（連打対策）
-            SendCommand(CMD_POWEROFF);
+            SendCommand(CMD_POWEROFF, null);
         }
         if (mButton_deviceRestart.getId() == v.getId()) {
             mButton_deviceRestart.setEnabled(false);    // 無効化（連打対策）
-            SendCommand(CMD_RESTART);
+            SendCommand(CMD_RESTART, null);
         }
     }
 
@@ -604,7 +653,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //   Is WdP device？
         //    Yes, Read DeviceState value of WdP
         if (!mDeviceAddress.equals("")) {
-            SendCommand(CMD_GETSTATUS);
+            SendCommand(CMD_GETSTATUS, null);
         }
 
         // [接続]ボタンを押す

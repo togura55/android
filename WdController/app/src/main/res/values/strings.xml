@@ -22,7 +22,7 @@
     <string name="smartpad_name">Device Name: </string>
     <string name="ip_address">IP Address: </string>
     <string name="port_number">Port Number: </string>
-    <string name="deviceStart">Start</string>
+    <string name="deviceStart">Run</string>
     <string name="deviceStop">Stop</string>
     <string name="deviceSuspend">Suspend</string>
     <string name="deviceResume">Resume</string>
