@@ -809,6 +809,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         "DISCONNECTED - Close BluetoothSocket")
                         .sendToTarget();
             }
+
+            if (mBluetoothDevice != null)
+                mBluetoothDevice = null;
         }
         // ------------------
 
