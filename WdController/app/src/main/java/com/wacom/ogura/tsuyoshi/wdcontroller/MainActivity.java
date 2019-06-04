@@ -2,6 +2,7 @@ package com.wacom.ogura.tsuyoshi.wdcontroller;
 
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -54,8 +55,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final UUID UUID_NOTIFY = UUID.fromString("00002902-0000-1000-8000-00805f9b34fb");
 
     // Constants
-    private static final int REQUEST_ENABLE_BLUETOOTH = 1; // Bluetooth機能の有効化要求時の識別コード
-    private static final int REQUEST_CONNECT_DEVICE = 2; // デバイス接続要求時の識別コード
+    private static final int REQUEST_ENABLE_BLUETOOTH = 1; // ID code when using the activate Bluetooth function
+    private static final int REQUEST_CONNECT_DEVICE = 2; // ID code for using request of the device connection
     private static final int PERMISSION_REQUEST_COARSE_LOCATION = 1;  // Android 6(sdk>23) Bluetooth Scan
 
     private String CommandState;        // a current state of which command is just sent to Pub
@@ -89,9 +90,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private final int PUBLISHER_STATE_IDLE = 3;
 
     // member valuables
-    private BluetoothAdapter mBluetoothAdapter;    // BluetoothAdapter : Bluetooth処理で必要
-    private String mDeviceAddress = "";    // デバイスアドレス
-    private BluetoothGatt mBluetoothGatt = null;    // Gattサービスの検索、キャラスタリスティックの読み書き
+    private BluetoothAdapter mBluetoothAdapter;    // BluetoothAdapter : need at the Bluetooth process
+    private String mDeviceAddress = "";
+    private BluetoothGatt mBluetoothGatt = null;    // Gatt service search, r/w the characteristic
     private BluetoothDevice mBluetoothDevice = null;
 
     private DataInputStream mDataInputStream = null;
@@ -113,7 +114,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private String mServerIpAddress;
     private String mServerPortNumberBase;
     private int mDeviceState = PUBLISHER_STATE_DISCONNECTED;
-    private String mClientIpAddress;    // added 1.0.2
 
     // GUI items
     private Button mButton_Disconnect;    // Disconnect button
@@ -150,6 +150,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    @SuppressLint("HandlerLeak")
     final Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -260,7 +261,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         int size = BtCommand.length();
                         dataOutputStream.writeInt(size);
 
-                        byte[] buf = BtCommand.getBytes("UTF-8");
+                        byte[] buf = BtCommand.getBytes(StandardCharsets.UTF_8);
                         dataOutputStream.write(buf, 0, buf.length);
 
                         // Read Response
@@ -284,7 +285,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     void ResponseDispatcher(String commandPacket, String response) {
-        Boolean updateUi = false;
+        boolean updateUi = false;
         String command;
 
         try {
@@ -320,7 +321,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         mServerIpAddress = list.get(++i);
                         mServerPortNumberBase = list.get(++i);
                         mDeviceState = Integer.parseInt(list.get(++i));
-                        mClientIpAddress = list.get(++i);    // added 1.0.2
+                        // added 1.0.2
+                        String mClientIpAddress = list.get(++i);
                     }
 
                     handler.obtainMessage(
@@ -368,7 +370,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 case CMD_GETBARCODE:
                     break;
                 case CMD_GETSTATUS:
-                    if (response != RES_NAK) {
+                    if (!response.equals(RES_NAK)) {
                         mDeviceState = Integer.parseInt(response);
                         updateUi = true;
                     }
@@ -449,7 +451,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
     // ----- End of RfComm -----------------
 
-    // フィルターを作成
+    // filer
     InputFilter inputFilter = new InputFilter() {
         @Override
         public CharSequence filter(CharSequence source, int start, int end,
@@ -466,11 +468,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        // just for the demo
-//        mDeviceName = "Wacom Clipboard";
-//        mServerIpAddress = "192.168.0.7";
-//        mServerPortNumberBase = "1337";
 
         // GUI items
         mButton_Disconnect = findViewById(R.id.button_disconnect);
@@ -494,7 +491,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mEditText_IpAddress = findViewById(R.id.edit_ipAddress);
         mEditText_PortNumber = findViewById(R.id.edit_portNumber);
 
-//        // フィルターの配列を作成
+//        // create a filter array
 //        InputFilter[] filters = new InputFilter[] { inputFilter };
 //
 //        mEditText_IpAddress.setFilters(filters);
@@ -504,10 +501,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         UpdateUi(PUBLISHER_STATE_DISCONNECTED);
 
-        // Android端末がBLEをサポートしてるかの確認
+        // Investigate Android device supports BLE or not
         if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)) {
             Toast.makeText(this, R.string.ble_is_not_supported, Toast.LENGTH_SHORT).show();
-            finish();    // アプリ終了宣言
+            finish();    // declare app is finished
             return;
         }
 
@@ -519,13 +516,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
-        // Bluetoothアダプタの取得
+        // Get the Bluetooth adapter
 
         BluetoothManager bluetoothManager = (BluetoothManager) getSystemService(Context.BLUETOOTH_SERVICE);
         mBluetoothAdapter = bluetoothManager.getAdapter();
-        if (null == mBluetoothAdapter) {    // Android端末がBluetoothをサポートしていない
+        if (null == mBluetoothAdapter) {    // Android device is not supported Bluetooth
             Toast.makeText(this, R.string.bluetooth_is_not_supported, Toast.LENGTH_SHORT).show();
-            finish();    // アプリ終了宣言
+            finish();    // declare the app is finished
             return;
         }
 
@@ -558,31 +555,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        Toast.makeText(this, "onClick is invoked.", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "onClick is invoked.", Toast.LENGTH_SHORT).show();
 
         if (mButton_Disconnect.getId() == v.getId()) {
-            mButton_Disconnect.setEnabled(false);    // [切断]ボタンの無効化（連打対策）
+            mButton_Disconnect.setEnabled(false);    // gray-out button for preventing double-tap
             disconnect();            // disconnect
             return;
         }
         if (mButton_getVersion.getId() == v.getId()) {
-            mButton_getVersion.setEnabled(false);    // 無効化（連打対策）
+            mButton_getVersion.setEnabled(false);    // gray-out for preventing double-tap
             SendCommand(CMD_GETVERSION, null);
             return;
         }
         if (mButton_getConfig.getId() == v.getId()) {
-            mButton_getConfig.setEnabled(false);    // 無効化（連打対策）
+            mButton_getConfig.setEnabled(false);    //
             SendCommand(CMD_GETCONFIG, null);
         }
         if (mButton_setConfig.getId() == v.getId()) {
-            mButton_setConfig.setEnabled(false);    // 無効化（連打対策）
+            mButton_setConfig.setEnabled(false);    //
             String params = mEditText_DeviceName.getText() + "," +
                     mEditText_IpAddress.getText() + "," +
                     mEditText_PortNumber.getText();
             SendCommand(CMD_SETCONFIG, params);
         }
         if (mButton_deviceStart.getId() == v.getId()) {
-            mButton_deviceStart.setEnabled(false);    // 無効化（連打対策）
+            mButton_deviceStart.setEnabled(false);    //
 
             String s = getString(R.string.deviceStart);
             String c = CMD_START;
@@ -598,7 +595,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             SendCommand(c, null);
         }
         if (mButton_deviceSuspend.getId() == v.getId()) {
-            mButton_deviceSuspend.setEnabled(false);    // 無効化（連打対策）
+            mButton_deviceSuspend.setEnabled(false);    //
 
             String s = getString(R.string.deviceSuspend);
             String c = CMD_SUSPEND;
@@ -614,11 +611,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             SendCommand(c, null);
         }
         if (mButton_devicePowerOff.getId() == v.getId()) {
-            mButton_devicePowerOff.setEnabled(false);    // 無効化（連打対策）
+            mButton_devicePowerOff.setEnabled(false);    //
             SendCommand(CMD_POWEROFF, null);
         }
         if (mButton_deviceRestart.getId() == v.getId()) {
-            mButton_deviceRestart.setEnabled(false);    // 無効化（連打対策）
+            mButton_deviceRestart.setEnabled(false);    //
             SendCommand(CMD_RESTART, null);
         }
     }
@@ -636,15 +633,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    // 初回表示時、および、他画面からの戻り、ポーズからの復帰時
+    // cases of displaying the 1st time, return from the other page, or resume from the pause
     @Override
     protected void onResume() {
         super.onResume();
 
-        // Android端末のBluetooth機能の有効化要求
+        // request to enable the BT function on Android device
         requestBluetoothFeature();
 
-        // GUIアイテムの有効無効の設定
+        // Settings for GUI items
         mEditText_DeviceName.setText(mDeviceName);
         mEditText_IpAddress.setText(mServerIpAddress);
         mEditText_PortNumber.setText(mServerPortNumberBase);
@@ -656,20 +653,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             SendCommand(CMD_GETSTATUS, null);
         }
 
-        // [接続]ボタンを押す
-        //       mButton_Connect.callOnClick();
     }
 
-    // 別のアクティビティ（か別のアプリ）に移行したことで、バックグラウンドに追いやられた時
+    // In the case of going to the background by transition to another activity
     @Override
     protected void onPause() {
         super.onPause();
 
-        // 切断
         disconnect();
     }
 
-    // アクティビティの終了直前
+    // Just before the activity finish
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -680,31 +674,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    // Android端末のBluetooth機能の有効化要求
+    // Request to enable the Bluetooth function of the Android device
     private void requestBluetoothFeature() {
         if (mBluetoothAdapter.isEnabled()) {
             return;
         }
-        // デバイスのBluetooth機能が有効になっていないときは、有効化要求（ダイアログ表示）
+        // When device's Bluetooth function is disabled, request to activate (open a dialog)
         Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
         startActivityForResult(enableBtIntent, REQUEST_ENABLE_BLUETOOTH);
     }
 
-    // 機能の有効化ダイアログの操作結果
+    // Result of operation for the feature activation
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
-            case REQUEST_ENABLE_BLUETOOTH: // Bluetooth有効化要求
-                if (Activity.RESULT_CANCELED == resultCode) {    // 有効にされなかった
+            case REQUEST_ENABLE_BLUETOOTH: // Request to enable Bluetooth
+                if (Activity.RESULT_CANCELED == resultCode) {    // rejected
                     Toast.makeText(this, R.string.bluetooth_is_not_working, Toast.LENGTH_SHORT).show();
-                    finish();    // アプリ終了宣言
+                    finish();    // declare finish the app
                     return;
                 }
                 break;
-            case REQUEST_CONNECT_DEVICE: // デバイス接続要求
+            case REQUEST_CONNECT_DEVICE: // request to access the device
                 String strDeviceName;
                 if (Activity.RESULT_OK == resultCode) {
-                    // デバイスリストアクティビティからの情報の取得
+                    // Get the information from the device list activity
                     strDeviceName = data.getStringExtra(DeviceListActivity.EXTRAS_DEVICE_NAME);
                     mDeviceAddress = data.getStringExtra(DeviceListActivity.EXTRAS_DEVICE_ADDRESS);
                 } else {
@@ -719,14 +713,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    // オプションメニュー作成時の処理
+    // Option menu creation procedure
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_main, menu);
         return true;
     }
 
-    // オプションメニューのアイテム選択時の処理
+    // Item selection procedure of option menu
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -738,16 +732,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return false;
     }
 
-    // 接続
+    // Connection
     private void connect() {
-        if (mDeviceAddress.equals("")) {    // DeviceAddressが空の場合は処理しない
+        if (mDeviceAddress.equals("")) {    // Nothing to do when DeviceAddress is empty
             return;
         }
 
         if (mBluetoothDevice != null) {
             return;
         }
-//        if (null != mBluetoothGatt) {    // mBluetoothGattがnullでないなら接続済みか、接続中。
+//        if (null != mBluetoothGatt) {    // Already connected or under the connection in case of mBluetoothGatt is null
 //            return;
 //        }
 
@@ -780,7 +774,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    // 切断
+    // Disconnection
     private void disconnect() {
         // ---- RfComm ------
         if (btClientThread != null) {
@@ -822,16 +816,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .sendToTarget();
     }
 
-    // GATTキャラクタリスティックの読み込み
-    private void readCharacteristic(UUID uuid_service, UUID uuid_characteristic) {
-        if (null == mBluetoothGatt) {
-            return;
-        }
-        BluetoothGattCharacteristic bleChar = mBluetoothGatt.getService(uuid_service).getCharacteristic(uuid_characteristic);
-        mBluetoothGatt.readCharacteristic(bleChar);
-    }
-
-//    // GATTキャラクタリスティック通知の設定
+//    // Read the GATT characteristic
+//    private void readCharacteristic(UUID uuid_service, UUID uuid_characteristic) {
+//        if (null == mBluetoothGatt) {
+//            return;
+//        }
+//        BluetoothGattCharacteristic bleChar = mBluetoothGatt.getService(uuid_service).getCharacteristic(uuid_characteristic);
+//        mBluetoothGatt.readCharacteristic(bleChar);
+//    }
+//
+//    // Setting the GATT characteristic notification
 //    private void setCharacteristicNotification(UUID uuid_service, UUID uuid_characteristic, boolean enable) {
 //        if (null == mBluetoothGatt) {
 //            return;
@@ -843,7 +837,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        mBluetoothGatt.writeDescriptor(descriptor);
 //    }
 //
-//    // GATTキャラクタリスティックの書き込み
+//    // Write the GATT characteristic
 //    private void writeCharacteristic(UUID uuid_service, UUID uuid_characteristic, String string) {
 //        if (null == mBluetoothGatt) {
 //            return;
