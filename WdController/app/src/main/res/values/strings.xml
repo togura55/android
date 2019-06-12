@@ -31,6 +31,10 @@
     <string name="deviceSettings">Device Settings</string>
     <string name="deviceOperations">Device Operations</string>
     <string name="no_device_found">No devices found</string>
+    <string name="deviceLogs">Show Logs</string>
+    <string name="getLogs">Get</string>
+    <string name="clearLogs">Clear</string>
+    <string name="saveLogs">Save</string>
 
     <!-- for the toast of DeviceListActivity -->
     <string name="unknown_device">Unknown device</string>

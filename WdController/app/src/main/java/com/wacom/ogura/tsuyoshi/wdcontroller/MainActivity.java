@@ -26,8 +26,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -114,6 +116,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private String mServerIpAddress;
     private String mServerPortNumberBase;
     private int mDeviceState = PUBLISHER_STATE_DISCONNECTED;
+    private ArrayList mLogsList = new ArrayList<>();
 
     // GUI items
     private Button mButton_Disconnect;    // Disconnect button
@@ -124,6 +127,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button mButton_deviceSuspend;
     private Button mButton_devicePowerOff;
     private Button mButton_deviceRestart;
+    private Button mButton_getLogs;
+    private Button mButton_clearLogs;
+    private Button mButton_saveLogs;
+
+    private ListView mListView_Logs;
+    private ArrayAdapter mAdapterLogs;
 
     private EditText mEditText_DeviceName;
     private EditText mEditText_IpAddress;
@@ -191,6 +200,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     ShowToaster((String) msg.obj);
                     break;
                 case Constants.MESSAGE_GETLOGS:
+                    mLogsList.add((String) msg.obj);
+                    mAdapterLogs.notifyDataSetChanged();
                     break;
                 case Constants.MESSAGE_GETBARCODE:
                     break;
@@ -366,8 +377,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     updateUi = true;
                     break;
                 case CMD_GETLOGS:
+                    handler.obtainMessage(
+                            Constants.MESSAGE_GETLOGS, response)
+                            .sendToTarget();
+                    updateUi = true;
                     break;
                 case CMD_GETBARCODE:
+                    // do something
                     break;
                 case CMD_GETSTATUS:
                     if (!response.equals(RES_NAK)) {
@@ -404,6 +420,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 mButton_deviceSuspend.setText(getString(R.string.deviceSuspend));
                 mButton_devicePowerOff.setEnabled(false);
                 mButton_deviceRestart.setEnabled(false);
+                mButton_getLogs.setEnabled(false);
+                mButton_clearLogs.setEnabled(false);
+                mButton_saveLogs.setEnabled(false);
                 mEditText_DeviceName.setText(""); // set empty
                 mEditText_IpAddress.setText("");
                 mEditText_PortNumber.setText("");
@@ -420,6 +439,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 mButton_deviceSuspend.setText(getString(R.string.deviceSuspend));
                 mButton_devicePowerOff.setEnabled(true);
                 mButton_deviceRestart.setEnabled(true);
+                mButton_getLogs.setEnabled(true);
+                mButton_clearLogs.setEnabled(true);
+                mButton_saveLogs.setEnabled(true);
                 break;
             case PUBLISHER_STATE_ACTIVE:
                 mButton_Disconnect.setEnabled(true);
@@ -427,9 +449,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 mButton_getVersion.setEnabled(true);
                 mButton_getConfig.setEnabled(true);
                 mButton_setConfig.setEnabled(true);
-                mButton_deviceStart.setEnabled(false);
+                mButton_deviceStart.setEnabled(true);
                 mButton_deviceStart.setText(getString(R.string.deviceStop));
                 mButton_deviceSuspend.setEnabled(true);
+                mButton_deviceSuspend.setText(getString(R.string.deviceSuspend));
                 mButton_devicePowerOff.setEnabled(true);
                 mButton_deviceRestart.setEnabled(true);
                 break;
@@ -439,9 +462,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 mButton_getVersion.setEnabled(true);
                 mButton_getConfig.setEnabled(true);
                 mButton_setConfig.setEnabled(true);
-                mButton_deviceStart.setEnabled(false);
+                mButton_deviceStart.setEnabled(true);
                 mButton_deviceStart.setText(getString(R.string.deviceStop));
-                mButton_deviceSuspend.setEnabled(false);
+                mButton_deviceSuspend.setEnabled(true);
+                mButton_deviceSuspend.setText(getString(R.string.deviceResume));
                 mButton_devicePowerOff.setEnabled(true);
                 mButton_deviceRestart.setEnabled(true);
                 break;
@@ -486,6 +510,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mButton_devicePowerOff.setOnClickListener(this);
         mButton_deviceRestart = findViewById(R.id.button_deviceRestart);
         mButton_deviceRestart.setOnClickListener(this);
+        mButton_getLogs = findViewById(R.id.button_getLogs);
+        mButton_getLogs.setOnClickListener(this);
+        mButton_clearLogs = findViewById(R.id.button_clearLogs);
+        mButton_clearLogs.setOnClickListener(this);
+        mButton_saveLogs = findViewById(R.id.button_saveLogs);
+        mButton_saveLogs.setOnClickListener(this);
+
+        // ListViewにArrayAdapterを設定する
+        // リスト項目とListViewを対応付けるArrayAdapterを用意する
+        mAdapterLogs = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, mLogsList);
+        mListView_Logs = (ListView)findViewById(R.id.listview_deviceLogs);
+        mListView_Logs.setAdapter(mAdapterLogs);
 
         mEditText_DeviceName = findViewById(R.id.edit_deviceName);
         mEditText_IpAddress = findViewById(R.id.edit_ipAddress);
@@ -599,13 +635,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             String s = getString(R.string.deviceSuspend);
             String c = CMD_SUSPEND;
-            if(mDeviceState == PUBLISHER_STATE_NEUTRAL || mDeviceState == PUBLISHER_STATE_ACTIVE ) {
-                s = getString(R.string.deviceSuspend);
-                c = CMD_RESUME;
-            }
-            else if (mDeviceState == PUBLISHER_STATE_IDLE) {
+            if(mDeviceState == PUBLISHER_STATE_ACTIVE ) {
                 s = getString(R.string.deviceResume);
                 c = CMD_SUSPEND;
+            }
+            else if (mDeviceState == PUBLISHER_STATE_IDLE) {
+                s = getString(R.string.deviceSuspend);
+                c = CMD_RESUME;
             }
             mButton_deviceSuspend.setText(s);
             SendCommand(c, null);
@@ -617,6 +653,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (mButton_deviceRestart.getId() == v.getId()) {
             mButton_deviceRestart.setEnabled(false);    //
             SendCommand(CMD_RESTART, null);
+        }
+
+        // Logs area
+        if (mButton_getLogs.getId() == v.getId()) {
+            mButton_getLogs.setEnabled(false);    //
+            SendCommand(CMD_GETLOGS, null);
+        }
+        if (mButton_clearLogs.getId() == v.getId()) {
+//            mButton_clearLogs.setEnabled(false);
+            this.mAdapterLogs.clear();  // clear all
+            this.mAdapterLogs.notifyDataSetChanged(); // notify
+        }
+        if (mButton_saveLogs.getId() == v.getId()) {
+//            mButton_saveLogs.setEnabled(false);    //
+            // do something
         }
     }
 
@@ -641,10 +692,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // request to enable the BT function on Android device
         requestBluetoothFeature();
 
+        mDeviceName = "";
+        mServerIpAddress = "";
+        mServerPortNumberBase = "";
+        mWdpVersion = "";
+
         // Settings for GUI items
         mEditText_DeviceName.setText(mDeviceName);
         mEditText_IpAddress.setText(mServerIpAddress);
         mEditText_PortNumber.setText(mServerPortNumberBase);
+        mTextView_WdpVersion.setText(mWdpVersion);
 
         // Try GetStatus if the device address is not empty
         //   Is WdP device？
@@ -652,7 +709,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (!mDeviceAddress.equals("")) {
             SendCommand(CMD_GETSTATUS, null);
         }
-
     }
 
     // In the case of going to the background by transition to another activity

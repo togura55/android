@@ -30,8 +30,11 @@
     <string name="deviceRestart">再起動</string>
     <string name="deviceSettings">デバイス設定</string>
     <string name="deviceOperations">デバイス操作</string>
-
     <string name="no_device_found">デバイスが見つかりません</string>
+    <string name="deviceLogs">ログ表示</string>
+    <string name="getLogs">取得</string>
+    <string name="clearLogs">クリア</string>
+    <string name="saveLogs">保存</string>
 
     <!-- for the toast of DeviceListActivity -->
     <string name="unknown_device">不明なデバイス</string>

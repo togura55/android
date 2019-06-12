@@ -9,6 +9,7 @@
 
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical"
@@ -18,8 +19,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent">
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -234,6 +234,7 @@
 
             </LinearLayout>
 
+            <!-- Device Operation area -->
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
@@ -298,9 +299,74 @@
 
             </LinearLayout>
 
+            <!-- Log area -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/deviceLogs"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/button_getLogs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/getLogs"
+                    android:textSize="18sp" />
+
+                <Space
+                    android:layout_width="5dp"
+                    android:layout_height="wrap_content" />
+
+                <Button
+                    android:id="@+id/button_clearLogs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/clearLogs"
+                    android:textSize="18sp" />
+
+                <Space
+                    android:layout_width="5dp"
+                    android:layout_height="wrap_content" />
+
+                <Button
+                    android:id="@+id/button_saveLogs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/saveLogs"
+                    android:textSize="18sp" />
+
+            </LinearLayout>
+
+            <ListView
+                android:id="@+id/listview_deviceLogs"
+                android:layout_width="match_parent"
+                android:layout_height="220dp"
+                android:layout_gravity="bottom"
+                android:textSize="12sp"
+                android:background="@drawable/border"/>
+
+            <!--- -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray" />
+
         </LinearLayout>
 
     </ScrollView>
+
 </LinearLayout><!--
 </android.support.constraint.ConstraintLayout>
 -->
