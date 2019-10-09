@@ -1,0 +1,46 @@
+<resources>
+    <string name="app_name">WdController</string>
+
+    <!-- for the toast in MainActivity -->
+    <string name="ble_is_not_supported">BLE is not supported</string>
+    <string name="bluetooth_is_not_supported">Bluetooth is not supported.</string>
+    <string name="bluetooth_is_not_working">Bluetooth is not working.</string>
+    <string name="bluetooth_scan_need_permission">Bluetooth Scan needs Permissions.</string>
+
+    <!-- for menu in MainActivity -->
+    <string name="search">Search</string>
+
+    <!-- for labels in MainActivity -->
+    <string name="bluetooth_connection">Bluetooth Connection</string>
+    <string name="device_name">Device Name : </string>
+    <string name="device_address">Device Address : </string>
+    <string name="connect">Connect</string>
+    <string name="disconnect">Disconnect</string>
+    <string name="getVersion">Get Version </string>
+    <string name="getConfig">Get Config </string>
+    <string name="setConfig">Set Config</string>
+    <string name="smartpad_name">Device Name: </string>
+    <string name="ip_address">IP Address: </string>
+    <string name="port_number">Port Number: </string>
+    <string name="deviceStart">Run</string>
+    <string name="deviceStop">Stop</string>
+    <string name="deviceSuspend">Suspend</string>
+    <string name="deviceResume">Resume</string>
+    <string name="devicePowerOff">Power Off</string>
+    <string name="deviceRestart">Restart</string>
+    <string name="deviceSettings">Device Settings</string>
+    <string name="deviceOperations">Device Operations</string>
+    <string name="no_device_found">No devices found</string>
+    <string name="deviceLogs">Show Logs</string>
+    <string name="getLogs">Get</string>
+    <string name="clearLogs">Clear</string>
+    <string name="saveLogs">Save</string>
+
+    <!-- for the toast of DeviceListActivity -->
+    <string name="unknown_device">Unknown device</string>
+
+    <!-- for the menu of DeviceListActivity -->
+    <string name="scan">Scan</string>
+    <string name="stop">Stop</string>
+
+</resources>
