@@ -14,7 +14,7 @@
             android:id="@+id/new_form_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Create new Form..."
+            android:text="@string/create_new_form"
             android:layout_alignParentLeft="true"/>
 
         <ImageButton
@@ -40,7 +40,7 @@
         android:layout_below="@id/button_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Existing forms:"
+        android:text="@string/existing_forms"
         android:padding="10dp"
         android:fontFamily="roboto"
         android:textColor="@android:color/black"

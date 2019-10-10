@@ -157,7 +157,7 @@ public class FormViewerActivity extends Activity {
         captureIntent.putExtra(DynamicCaptureActivity.INK_WIDTH, inkWidth);
         captureIntent.putExtra(DynamicCaptureActivity.KEY, key);
 //        captureIntent.putExtra(DynamicCaptureActivity.TOUCH_ENABLE, false);
-        captureIntent.putExtra(DynamicCaptureActivity.TOUCH_ENABLE, true);
+        captureIntent.putExtra(DynamicCaptureActivity.TOUCH_ENABLE, enableTouch);
 
         switch (prefs.getSignatureFormat()) {
             case FSS:
