@@ -45,4 +45,6 @@
     <string name="create_new_form" translatable="false">"フォーム作成..."</string>
     <string name="existing_forms" translatable="false">"作成済フォーム: "</string>
 
+    <string name="form_html" translatable="false">form_ja.html</string>
+
 </resources>

@@ -87,7 +87,8 @@ public class FormViewerActivity extends Activity {
         Intent intent = getIntent();
         String formPath = intent.getStringExtra(FORM_PATH);
         if (formPath == null) {
-            formPath = "file:///android_asset/form.html";
+//            formPath = "file:///android_asset/form.html";
+            formPath = "file:///android_asset/" + getString(R.string.form_html);
         } else {
             File file = new File(formPath);
             formName = file.getName();
@@ -276,43 +277,44 @@ public class FormViewerActivity extends Activity {
     }
 
     private void generateFilledForm(String name, String reason, String comments) {
-        try (InputStream is = getAssets().open("form.html")) {
-            String rootName = name+"_"+ System.currentTimeMillis();
-            imageName = rootName + ".png";
-            formName = rootName + ".html";
+//        try (InputStream is = getAssets().open("form.html")) {
+            try (InputStream is = getAssets().open("@string/form_html")) {
+                String rootName = name+"_"+ System.currentTimeMillis();
+                imageName = rootName + ".png";
+                formName = rootName + ".html";
 
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder dBuilder = factory.newDocumentBuilder();
-            Document doc = dBuilder.parse(is);
+                DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+                DocumentBuilder dBuilder = factory.newDocumentBuilder();
+                Document doc = dBuilder.parse(is);
 
-            doc.getElementById("nameField").setAttribute("value", name);
-            doc.getElementById("nameField").setAttribute("readonly", "true");
-            doc.getElementById("reasonField").setAttribute("value", reason);
-            doc.getElementById("reasonField").setAttribute("readonly", "true");
-            doc.getElementById("commentsField").setTextContent(comments);
-            doc.getElementById("commentsField").setAttribute("readonly", "true");
+                doc.getElementById("nameField").setAttribute("value", name);
+                doc.getElementById("nameField").setAttribute("readonly", "true");
+                doc.getElementById("reasonField").setAttribute("value", reason);
+                doc.getElementById("reasonField").setAttribute("readonly", "true");
+                doc.getElementById("commentsField").setTextContent(comments);
+                doc.getElementById("commentsField").setAttribute("readonly", "true");
 
-            doc.getElementById("buttonDiv").removeChild(doc.getElementById("import"));
-            Element button = doc.getElementById("button");
-            button.setTextContent("Verify form");
-            button.setAttribute("onclick", "javascript:verifyForm()");
+                doc.getElementById("buttonDiv").removeChild(doc.getElementById("import"));
+                Element button = doc.getElementById("button");
+                button.setTextContent("Verify form");
+                button.setAttribute("onclick", "javascript:verifyForm()");
 
-            Element element = doc.createElement("img");
-            element.setAttribute("src", imageName);
-            doc.getElementById("signatureDiv").appendChild(element);
+                Element element = doc.createElement("img");
+                element.setAttribute("src", imageName);
+                doc.getElementById("signatureDiv").appendChild(element);
 
-            Transformer transformer = TransformerFactory.newInstance().newTransformer();
-            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
+                Transformer transformer = TransformerFactory.newInstance().newTransformer();
+                transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+                transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
 
-            //initialize StreamResult with File object to save to file
-            StreamResult result = new StreamResult(new StringWriter());
-            DOMSource source = new DOMSource(doc);
-            transformer.transform(source, result);
-            form = result.getWriter().toString();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+                //initialize StreamResult with File object to save to file
+                StreamResult result = new StreamResult(new StringWriter());
+                DOMSource source = new DOMSource(doc);
+                transformer.transform(source, result);
+                form = result.getWriter().toString();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
     }
 
     private void saveForm(byte[] signatureData) {

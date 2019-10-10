@@ -46,6 +46,6 @@
     <string name="create_new_form" translatable="false">"Create new Form..."</string>
     <string name="existing_forms" translatable="false">"Existing Forms: "</string>
 
-
+    <string name="form_html" translatable="false">form.html</string>
 
 </resources>
