@@ -278,7 +278,7 @@ public class FormViewerActivity extends Activity {
 
     private void generateFilledForm(String name, String reason, String comments) {
 //        try (InputStream is = getAssets().open("form.html")) {
-            try (InputStream is = getAssets().open("@string/form_html")) {
+            try (InputStream is = getAssets().open(getString(R.string.form_html))) {
                 String rootName = name+"_"+ System.currentTimeMillis();
                 imageName = rootName + ".png";
                 formName = rootName + ".html";

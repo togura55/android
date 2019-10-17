@@ -48,4 +48,13 @@
 
     <string name="form_html" translatable="false">form.html</string>
 
+    <string name="export_signature" translatable="false">Export Signature</string>
+    <string name="signature_export_to_file" translatable="false">Signature exported to file</string>
+    <string name="delete_form" translatable="false">Delete form</string>
+    <string name="do_you_really_delete_form" translatable="false">Do you really want to delete the form %s ?</string>
+    <string name="file_name" translatable="false">File name</string>
+    <string name="password_required" translatable="false">Password required</string>
+    <string name="the_signature_is_encrypted" translatable="false">The signature is encrypted with password, please enter the password:</string>
+    <string name="invalid_password" translatable="false">Invalid password</string>
+
 </resources>

@@ -194,8 +194,10 @@ public class FormListActivity extends Activity {
 
     private void deleteForm(final String formName) {
         new AlertDialog.Builder(this)
-                .setTitle("Delete form")
-                .setMessage("Do you really want to delete the form "+formName+"?")
+//                .setTitle("Delete form")
+//                .setMessage("Do you really want to delete the form "+formName+"?")
+                .setTitle(getString(R.string.delete_form))
+                .setMessage(String.format(getString(R.string.do_you_really_delete_form), formName))
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
@@ -219,7 +221,8 @@ public class FormListActivity extends Activity {
 
     private void exportSignature(final String formName) {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
-        dialogBuilder.setTitle("Export Signature");
+//        dialogBuilder.setTitle("Export Signature");
+        dialogBuilder.setTitle(getString(R.string.export_signature));
         LayoutInflater inflater = getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.export_dialog, null);
         dialogBuilder.setView(dialogView);
@@ -348,7 +351,8 @@ public class FormListActivity extends Activity {
 
     private void openFilenameDialog(final String dirname) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("File name");
+//        builder.setTitle("File name");
+        builder.setTitle(getString(R.string.file_name));
 
         // Set up the input
         final EditText input = new EditText(this);
@@ -381,7 +385,8 @@ public class FormListActivity extends Activity {
                 fOut.write(exportData);
                 fOut.flush();
                 fOut.close();
-                openDialog("Signature exported to file");
+//                openDialog("Signature exported to file");
+                openDialog(getString(R.string.signature_export_to_file));
             } catch (Exception e) {
                 openDialog(e.toString());
             }
@@ -411,8 +416,10 @@ public class FormListActivity extends Activity {
     private void openPasswordDialog(final Signature sig, final Runnable runnable) {
         final EditText passwordEditText = new EditText(this);
         AlertDialog dialog = new AlertDialog.Builder(this)
-                .setTitle("Password required")
-                .setMessage("The signature is encrypted with password, please enter the password:")
+//               .setTitle("Password required")
+                .setTitle(getString(R.string.password_required))
+//                .setMessage("The signature is encrypted with password, please enter the password:")
+                .setMessage(getString(R.string.the_signature_is_encrypted))
                 .setView(passwordEditText)
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
@@ -421,7 +428,8 @@ public class FormListActivity extends Activity {
                             sig.setEncryptionPassword(passwordEditText.getText().toString());
                             runnable.run();
                         } catch (SignatureSDKException e) {
-                            openDialog("Invalid password");
+ //                           openDialog("Invalid password");
+                            openDialog(getString(R.string.invalid_password));
                         }
                     }
                 })

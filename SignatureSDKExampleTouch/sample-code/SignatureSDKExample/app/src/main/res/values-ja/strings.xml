@@ -47,4 +47,12 @@
 
     <string name="form_html" translatable="false">form_ja.html</string>
 
+    <string name="export_signature" translatable="false">サインのエクスポート</string>
+    <string name="signature_export_to_file" translatable="false">サインはファイルにエクスポートされました</string>
+    <string name="delete_form" translatable="false">フォームの削除</string>
+    <string name="do_you_really_delete_form" translatable="false">本当にフォーム %s を削除してよろしいですか？</string>
+    <string name="file_name" translatable="false">ファイル名</string>
+    <string name="password_required" translatable="false">パスワードが必要です</string>
+    <string name="the_signature_is_encrypted" translatable="false">サインはパスワードで暗号化されています。パスワードを入力してください:</string>
+    <string name="invalid_password" translatable="false">不正なパスワードです</string>
 </resources>
