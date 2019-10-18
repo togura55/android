@@ -70,6 +70,9 @@ public class FormViewerActivity extends Activity {
 
     private static final int DYNAMIC_CAPTURE_ACTION = 1;
     private static final int OPEN_FILE_ACTION = 2;
+    // --- added -----
+    private static final String SIGNATURE_NAME = "signature_name";
+    private static final String SIGNATURE_REASON = "signature_reason";
 
     private boolean captureSignatureWindowOpened;
     private String imageName;
