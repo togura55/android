@@ -1,0 +1,46 @@
+<resources>
+    <string name="app_name">WdController</string>
+
+    <!-- for the toast in MainActivity -->
+    <string name="ble_is_not_supported">BLEがサポートされていません。</string>
+    <string name="bluetooth_is_not_supported">Bluetoothがサポートされていません。</string>
+    <string name="bluetooth_is_not_working">Bluetoothが機能していません。</string>
+    <string name="bluetooth_scan_need_permission">Bluetoothスキャンは権限が必要です。</string>
+
+    <!-- for menu in MainActivity -->
+    <string name="search">検索</string>
+
+    <!-- for labels in MainActivity -->
+    <string name="bluetooth_connection">Bluetooth接続</string>
+    <string name="device_name">デバイス名 : </string>
+    <string name="device_address">デバイスアドレス : </string>
+    <string name="connect">接続</string>
+    <string name="disconnect">切断</string>
+    <string name="getVersion">バージョン取得 </string>
+    <string name="getConfig">設定受信</string>
+    <string name="setConfig">設定送信</string>
+    <string name="smartpad_name">デバイス名: </string>
+    <string name="ip_address">IPアドレス: </string>
+    <string name="port_number">ポート番号: </string>
+    <string name="deviceStart">開始</string>
+    <string name="deviceStop">停止</string>
+    <string name="deviceSuspend">休止</string>
+    <string name="deviceResume">再開</string>
+    <string name="devicePowerOff">電源オフ</string>
+    <string name="deviceRestart">再起動</string>
+    <string name="deviceSettings">デバイス設定</string>
+    <string name="deviceOperations">デバイス操作</string>
+    <string name="no_device_found">デバイスが見つかりません</string>
+    <string name="deviceLogs">ログ表示</string>
+    <string name="getLogs">取得</string>
+    <string name="clearLogs">クリア</string>
+    <string name="saveLogs">保存</string>
+
+    <!-- for the toast of DeviceListActivity -->
+    <string name="unknown_device">不明なデバイス</string>
+
+    <!-- for the menu of DeviceListActivity -->
+    <string name="scan">スキャン</string>
+    <string name="stop">停止</string>
+
+</resources>

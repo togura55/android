@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="width" translatable="false">幅: </string>
+    <string name="height" translatable="false">高さ: </string>
+    <string name="ink_color" translatable="false">インクの色: </string>
+    <string name="ink_width" translatable="false">インクの太さ: </string>
+    <string name="encryption_method" translatable="false">暗号化の種類:</string>
+    <string name="signature_format" translatable="false">サインの形式:</string>
+
+    <string name="encryption_method_none" translatable="false">暗号化なし</string>
+    <string name="encryption_method_password" translatable="false">パスワードで暗号化: </string>
+    <string name="encryption_method_certificate" translatable="false">公開/プライベートキーで暗号化</string>
+
+    <string name="signature_format_fss" translatable="false">FSS</string>
+    <string name="signature_format_iso_binary" translatable="false">ISOバイナリ</string>
+    <string name="signature_format_iso_xml" translatable="false">ISO Xml</string>
+
+    <string name="signature_export_title" translatable="false">エクスポート形式を選択:</string>
+    
+    <string name="default_who" translatable="false">サイン者氏名</string>
+    <string name="default_why" translatable="false">サインの理由</string>
+    <string name="default_what" translatable="false">ファイルハッシュ値を添付</string>
+    <string name="default_width" translatable="false">400</string>
+    <string name="default_height" translatable="false">400</string>
+    
+    <string name="des_background" translatable="false">画像背景</string>
+    <string name="des_logo" translatable="false">Wacomロゴ</string>
+    <string name="des_app_name" translatable="false">SignatureSDK</string>
+    <string name="des_open" translatable="false">開く</string>
+    <string name="des_capture" translatable="false">キャプチャー</string>
+    <string name="des_show" translatable="false">表示</string>
+    <string name="des_save" translatable="false">保存</string>
+    <string name="des_clear" translatable="false">クリア</string>
+    <string name="des_info" translatable="false">情報</string>
+    <string name="des_check_integrity" translatable="false">正当性をチェック</string>
+    <string name="des_check_document" translatable="false">ドキュメントをチェック</string>
+    <string name="des_about" translatable="false">情報</string>
+    <string name="des_attach_document" translatable="false">ドキュメントを添付</string>
+    <string name="des_select_color" translatable="false">色を選択</string>
+
+    <string name="input_settings" translatable="false">入力設定: </string>
+    <string name="enable_touch" translatable="false">タッチ入力有効</string>
+
+    <string name="create_new_form" translatable="false">"フォーム作成..."</string>
+    <string name="existing_forms" translatable="false">"作成済フォーム: "</string>
+
+    <string name="form_html" translatable="false">form_ja.html</string>
+
+    <string name="export_signature" translatable="false">サインのエクスポート</string>
+    <string name="signature_export_to_file" translatable="false">サインはファイルにエクスポートされました</string>
+    <string name="delete_form" translatable="false">フォームの削除</string>
+    <string name="do_you_really_delete_form" translatable="false">本当にフォーム %s を削除してよろしいですか？</string>
+    <string name="file_name" translatable="false">ファイル名</string>
+    <string name="password_required" translatable="false">パスワードが必要です</string>
+    <string name="the_signature_is_encrypted" translatable="false">サインはパスワードで暗号化されています。パスワードを入力してください:</string>
+    <string name="invalid_password" translatable="false">不正なパスワードです</string>
+</resources>

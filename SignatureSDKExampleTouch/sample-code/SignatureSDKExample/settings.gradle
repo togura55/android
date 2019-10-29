@@ -1,0 +1,1 @@
+include ':app', ':signaturesdk-2.2'
