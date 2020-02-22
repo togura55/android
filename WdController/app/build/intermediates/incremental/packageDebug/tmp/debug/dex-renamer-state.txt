@@ -1,0 +1,7 @@
+#Wed May 01 11:31:43 JST 2019
+base.0=C\:\\Users\\togur\\Documents\\GitHub\\android\\WdController\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\out
+path.1=classes.dex
+renamed.1=classes2.dex
+path.0=classes.dex
+renamed.0=classes.dex
+base.1=C\:\\Users\\togur\\Documents\\GitHub\\android\\WdController\\app\\build\\intermediates\\dex\\debug\\mergeExtDexDebug\\out
