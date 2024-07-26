@@ -1,0 +1,198 @@
+-- Merging decision tree log ---
+manifest
+ADDED from F:\OneDrive - Wacom AAD\SDKs\SignatureSDK\Android\sdk-for-signature-android-master-2.4\samples\SignatureSDKExample\app\src\main\AndroidManifest.xml:2:1-36:12
+INJECTED from F:\OneDrive - Wacom AAD\SDKs\SignatureSDK\Android\sdk-for-signature-android-master-2.4\samples\SignatureSDKExample\app\src\main\AndroidManifest.xml:2:1-36:12
+INJECTED from F:\OneDrive - Wacom AAD\SDKs\SignatureSDK\Android\sdk-for-signature-android-master-2.4\samples\SignatureSDKExample\app\src\main\AndroidManifest.xml:2:1-36:12
+INJECTED from F:\OneDrive - Wacom AAD\SDKs\SignatureSDK\Android\sdk-for-signature-android-master-2.4\samples\SignatureSDKExample\app\src\main\AndroidManifest.xml:2:1-36:12
+MERGED from [signaturesdk_2.4.aar] C:\Users\togur\.gradle\caches\transforms-3\66d015444d9a3e65c89694a4486e8ca8\transformed\signaturesdk_2.4\AndroidManifest.xml:2:1-26:12
+MERGED from [will-sdk-1.8.4.aar] C:\Users\togur\.gradle\caches\transforms-3\8e82f78cbae4d5d82dc550cd83d6afca\transformed\will-sdk-1.8.4\AndroidManifest.xml:2:1-11:12
+MERGED from [com.android.support:appcompat-v7:28.0.0] C:\Users\togur\.gradle\caches\transforms-3\6708ce35ce1c5e0216914fe0d42561de\transformed\appcompat-v7-28.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support.constraint:constraint-layout:1.0.2] C:\Users\togur\.gradle\caches\transforms-3\3ee4e9eff93751e9bc73250c0729f671\transformed\constraint-layout-1.0.2\AndroidManifest.xml:2:1-11:12
+MERGED from [com.android.support:support-fragment:28.0.0] C:\Users\togur\.gradle\caches\transforms-3\54faa821fe2bf240f5cdc3c14d68f46b\transformed\support-fragment-28.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:animated-vector-drawable:28.0.0] C:\Users\togur\.gradle\caches\transforms-3\cbe1a8092a6f73064b0fdc45459e61dd\transformed\animated-vector-drawable-28.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-core-ui:28.0.0] C:\Users\togur\.gradle\caches\transforms-3\1be506f4ef056216451ae82ec72ea2a3\transformed\support-core-ui-28.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-core-utils:28.0.0] C:\Users\togur\.gradle\caches\transforms-3\dc28677911487eb45c283059dcfd3e2b\transformed\support-core-utils-28.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-vector-drawable:28.0.0] C:\Users\togur\.gradle\caches\transforms-3\81edb0f46e0f6e2367db6c541bc2f680\transformed\support-vector-drawable-28.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:loader:28.0.0] C:\Users\togur\.gradle\caches\transforms-3\8266c036f705d7f6a74931900ec291bd\transformed\loader-28.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:viewpager:28.0.0] C:\Users\togur\.gradle\caches\transforms-3\b59d03f3c2696bc6c48d0f5e558e1e19\transformed\viewpager-28.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:coordinatorlayout:28.0.0] C:\Users\togur\.gradle\caches\transforms-3\b16a61a76a8b9f60d169aaae4d70e651\transformed\coordinatorlayout-28.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:drawerlayout:28.0.0] C:\Users\togur\.gradle\caches\transforms-3\d49f4396f345e18b3f0ead039e9db922\transformed\drawerlayout-28.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:slidingpanelayout:28.0.0] C:\Users\togur\.gradle\caches\transforms-3\ca5117d7e01dbf6b6f15a8f942d11c6d\transformed\slidingpanelayout-28.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:customview:28.0.0] C:\Users\togur\.gradle\caches\transforms-3\5b7bcc6f56c7026434744cd9d66301bd\transformed\customview-28.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:swiperefreshlayout:28.0.0] C:\Users\togur\.gradle\caches\transforms-3\66f880810b4d60a8a4cacd8df0af74ec\transformed\swiperefreshlayout-28.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:asynclayoutinflater:28.0.0] C:\Users\togur\.gradle\caches\transforms-3\7beec3b5d63792218cb3e2a4ece29809\transformed\asynclayoutinflater-28.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-compat:28.0.0] C:\Users\togur\.gradle\caches\transforms-3\5b8da9f19eb3e14eed504567415fc3c7\transformed\support-compat-28.0.0\AndroidManifest.xml:17:1-24:12
+MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\togur\.gradle\caches\transforms-3\b5003114398eb77be8451a26f2e39dc9\transformed\versionedparcelable-28.0.0\AndroidManifest.xml:17:1-25:12
+MERGED from [com.android.support:cursoradapter:28.0.0] C:\Users\togur\.gradle\caches\transforms-3\b47af086abdce3aee884f9010b8e433e\transformed\cursoradapter-28.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:runtime:1.1.1] C:\Users\togur\.gradle\caches\transforms-3\0a5a9bf3e32773778ee98d5e34dc41f6\transformed\runtime-1.1.1\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:documentfile:28.0.0] C:\Users\togur\.gradle\caches\transforms-3\0dea718331a227809f6f3e33a93bdb9c\transformed\documentfile-28.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:localbroadcastmanager:28.0.0] C:\Users\togur\.gradle\caches\transforms-3\651e5959f84e185fbe19dd17ae88c7ac\transformed\localbroadcastmanager-28.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:print:28.0.0] C:\Users\togur\.gradle\caches\transforms-3\f58b4bcfdcd6475730363187396dcc40\transformed\print-28.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:viewmodel:1.1.1] C:\Users\togur\.gradle\caches\transforms-3\acb9392c61eafbe7520087a88f50e9cf\transformed\viewmodel-1.1.1\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:livedata:1.1.1] C:\Users\togur\.gradle\caches\transforms-3\7f99853a275e4457fd478eaaf830cd13\transformed\livedata-1.1.1\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:livedata-core:1.1.1] C:\Users\togur\.gradle\caches\transforms-3\05a749bafc89d97eee1e22699fab7590\transformed\livedata-core-1.1.1\AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.core:runtime:1.1.1] C:\Users\togur\.gradle\caches\transforms-3\73604a6b9cc87857e41e514d7de1a168\transformed\runtime-1.1.1\AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:interpolator:28.0.0] C:\Users\togur\.gradle\caches\transforms-3\ba539e09c842027d8f20c5174ac172d2\transformed\interpolator-28.0.0\AndroidManifest.xml:17:1-22:12
+	package
+		INJECTED from F:\OneDrive - Wacom AAD\SDKs\SignatureSDK\Android\sdk-for-signature-android-master-2.4\samples\SignatureSDKExample\app\src\main\AndroidManifest.xml
+	android:versionName
+		ADDED from F:\OneDrive - Wacom AAD\SDKs\SignatureSDK\Android\sdk-for-signature-android-master-2.4\samples\SignatureSDKExample\app\src\main\AndroidManifest.xml:4:5-30
+		INJECTED from F:\OneDrive - Wacom AAD\SDKs\SignatureSDK\Android\sdk-for-signature-android-master-2.4\samples\SignatureSDKExample\app\src\main\AndroidManifest.xml
+	xmlns:android
+		ADDED from F:\OneDrive - Wacom AAD\SDKs\SignatureSDK\Android\sdk-for-signature-android-master-2.4\samples\SignatureSDKExample\app\src\main\AndroidManifest.xml:2:11-69
+	android:versionCode
+		ADDED from F:\OneDrive - Wacom AAD\SDKs\SignatureSDK\Android\sdk-for-signature-android-master-2.4\samples\SignatureSDKExample\app\src\main\AndroidManifest.xml:3:5-28
+		INJECTED from F:\OneDrive - Wacom AAD\SDKs\SignatureSDK\Android\sdk-for-signature-android-master-2.4\samples\SignatureSDKExample\app\src\main\AndroidManifest.xml
+uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
+ADDED from F:\OneDrive - Wacom AAD\SDKs\SignatureSDK\Android\sdk-for-signature-android-master-2.4\samples\SignatureSDKExample\app\src\main\AndroidManifest.xml:6:5-80
+MERGED from [signaturesdk_2.4.aar] C:\Users\togur\.gradle\caches\transforms-3\66d015444d9a3e65c89694a4486e8ca8\transformed\signaturesdk_2.4\AndroidManifest.xml:7:5-81
+MERGED from [signaturesdk_2.4.aar] C:\Users\togur\.gradle\caches\transforms-3\66d015444d9a3e65c89694a4486e8ca8\transformed\signaturesdk_2.4\AndroidManifest.xml:7:5-81
+	android:name
+		ADDED from F:\OneDrive - Wacom AAD\SDKs\SignatureSDK\Android\sdk-for-signature-android-master-2.4\samples\SignatureSDKExample\app\src\main\AndroidManifest.xml:6:22-78
+application
+ADDED from F:\OneDrive - Wacom AAD\SDKs\SignatureSDK\Android\sdk-for-signature-android-master-2.4\samples\SignatureSDKExample\app\src\main\AndroidManifest.xml:8:5-34:19
+INJECTED from F:\OneDrive - Wacom AAD\SDKs\SignatureSDK\Android\sdk-for-signature-android-master-2.4\samples\SignatureSDKExample\app\src\main\AndroidManifest.xml:8:5-34:19
+MERGED from [signaturesdk_2.4.aar] C:\Users\togur\.gradle\caches\transforms-3\66d015444d9a3e65c89694a4486e8ca8\transformed\signaturesdk_2.4\AndroidManifest.xml:9:5-24:19
+MERGED from [signaturesdk_2.4.aar] C:\Users\togur\.gradle\caches\transforms-3\66d015444d9a3e65c89694a4486e8ca8\transformed\signaturesdk_2.4\AndroidManifest.xml:9:5-24:19
+MERGED from [com.android.support.constraint:constraint-layout:1.0.2] C:\Users\togur\.gradle\caches\transforms-3\3ee4e9eff93751e9bc73250c0729f671\transformed\constraint-layout-1.0.2\AndroidManifest.xml:9:5-20
+MERGED from [com.android.support.constraint:constraint-layout:1.0.2] C:\Users\togur\.gradle\caches\transforms-3\3ee4e9eff93751e9bc73250c0729f671\transformed\constraint-layout-1.0.2\AndroidManifest.xml:9:5-20
+MERGED from [com.android.support:support-compat:28.0.0] C:\Users\togur\.gradle\caches\transforms-3\5b8da9f19eb3e14eed504567415fc3c7\transformed\support-compat-28.0.0\AndroidManifest.xml:22:5-94
+MERGED from [com.android.support:support-compat:28.0.0] C:\Users\togur\.gradle\caches\transforms-3\5b8da9f19eb3e14eed504567415fc3c7\transformed\support-compat-28.0.0\AndroidManifest.xml:22:5-94
+MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\togur\.gradle\caches\transforms-3\b5003114398eb77be8451a26f2e39dc9\transformed\versionedparcelable-28.0.0\AndroidManifest.xml:22:5-23:19
+MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\togur\.gradle\caches\transforms-3\b5003114398eb77be8451a26f2e39dc9\transformed\versionedparcelable-28.0.0\AndroidManifest.xml:22:5-23:19
+	android:extractNativeLibs
+		INJECTED from F:\OneDrive - Wacom AAD\SDKs\SignatureSDK\Android\sdk-for-signature-android-master-2.4\samples\SignatureSDKExample\app\src\main\AndroidManifest.xml
+	android:appComponentFactory
+		ADDED from [com.android.support:support-compat:28.0.0] C:\Users\togur\.gradle\caches\transforms-3\5b8da9f19eb3e14eed504567415fc3c7\transformed\support-compat-28.0.0\AndroidManifest.xml:22:18-91
+	android:supportsRtl
+		ADDED from [signaturesdk_2.4.aar] C:\Users\togur\.gradle\caches\transforms-3\66d015444d9a3e65c89694a4486e8ca8\transformed\signaturesdk_2.4\AndroidManifest.xml:12:9-35
+	android:label
+		ADDED from F:\OneDrive - Wacom AAD\SDKs\SignatureSDK\Android\sdk-for-signature-android-master-2.4\samples\SignatureSDKExample\app\src\main\AndroidManifest.xml:11:9-41
+	android:icon
+		ADDED from F:\OneDrive - Wacom AAD\SDKs\SignatureSDK\Android\sdk-for-signature-android-master-2.4\samples\SignatureSDKExample\app\src\main\AndroidManifest.xml:10:9-45
+	android:allowBackup
+		ADDED from F:\OneDrive - Wacom AAD\SDKs\SignatureSDK\Android\sdk-for-signature-android-master-2.4\samples\SignatureSDKExample\app\src\main\AndroidManifest.xml:9:9-35
+	android:theme
+		ADDED from F:\OneDrive - Wacom AAD\SDKs\SignatureSDK\Android\sdk-for-signature-android-master-2.4\samples\SignatureSDKExample\app\src\main\AndroidManifest.xml:12:9-40
+activity#com.wacom.signature.sdk.example.FormListActivity
+ADDED from F:\OneDrive - Wacom AAD\SDKs\SignatureSDK\Android\sdk-for-signature-android-master-2.4\samples\SignatureSDKExample\app\src\main\AndroidManifest.xml:13:9-21:20
+	android:label
+		ADDED from F:\OneDrive - Wacom AAD\SDKs\SignatureSDK\Android\sdk-for-signature-android-master-2.4\samples\SignatureSDKExample\app\src\main\AndroidManifest.xml:15:13-45
+	android:exported
+		ADDED from F:\OneDrive - Wacom AAD\SDKs\SignatureSDK\Android\sdk-for-signature-android-master-2.4\samples\SignatureSDKExample\app\src\main\AndroidManifest.xml:16:13-36
+	android:name
+		ADDED from F:\OneDrive - Wacom AAD\SDKs\SignatureSDK\Android\sdk-for-signature-android-master-2.4\samples\SignatureSDKExample\app\src\main\AndroidManifest.xml:14:13-45
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from F:\OneDrive - Wacom AAD\SDKs\SignatureSDK\Android\sdk-for-signature-android-master-2.4\samples\SignatureSDKExample\app\src\main\AndroidManifest.xml:17:13-20:29
+action#android.intent.action.MAIN
+ADDED from F:\OneDrive - Wacom AAD\SDKs\SignatureSDK\Android\sdk-for-signature-android-master-2.4\samples\SignatureSDKExample\app\src\main\AndroidManifest.xml:18:17-69
+	android:name
+		ADDED from F:\OneDrive - Wacom AAD\SDKs\SignatureSDK\Android\sdk-for-signature-android-master-2.4\samples\SignatureSDKExample\app\src\main\AndroidManifest.xml:18:25-66
+category#android.intent.category.LAUNCHER
+ADDED from F:\OneDrive - Wacom AAD\SDKs\SignatureSDK\Android\sdk-for-signature-android-master-2.4\samples\SignatureSDKExample\app\src\main\AndroidManifest.xml:19:17-77
+	android:name
+		ADDED from F:\OneDrive - Wacom AAD\SDKs\SignatureSDK\Android\sdk-for-signature-android-master-2.4\samples\SignatureSDKExample\app\src\main\AndroidManifest.xml:19:27-74
+activity#com.wacom.signature.sdk.example.SettingsActivity
+ADDED from F:\OneDrive - Wacom AAD\SDKs\SignatureSDK\Android\sdk-for-signature-android-master-2.4\samples\SignatureSDKExample\app\src\main\AndroidManifest.xml:22:9-25:20
+	android:label
+		ADDED from F:\OneDrive - Wacom AAD\SDKs\SignatureSDK\Android\sdk-for-signature-android-master-2.4\samples\SignatureSDKExample\app\src\main\AndroidManifest.xml:24:13-45
+	android:name
+		ADDED from F:\OneDrive - Wacom AAD\SDKs\SignatureSDK\Android\sdk-for-signature-android-master-2.4\samples\SignatureSDKExample\app\src\main\AndroidManifest.xml:23:13-45
+activity#com.wacom.signature.sdk.example.FormViewerActivity
+ADDED from F:\OneDrive - Wacom AAD\SDKs\SignatureSDK\Android\sdk-for-signature-android-master-2.4\samples\SignatureSDKExample\app\src\main\AndroidManifest.xml:26:9-29:20
+	android:label
+		ADDED from F:\OneDrive - Wacom AAD\SDKs\SignatureSDK\Android\sdk-for-signature-android-master-2.4\samples\SignatureSDKExample\app\src\main\AndroidManifest.xml:28:13-45
+	android:name
+		ADDED from F:\OneDrive - Wacom AAD\SDKs\SignatureSDK\Android\sdk-for-signature-android-master-2.4\samples\SignatureSDKExample\app\src\main\AndroidManifest.xml:27:13-47
+activity#com.wacom.signature.sdk.example.TextEditorActivity
+ADDED from F:\OneDrive - Wacom AAD\SDKs\SignatureSDK\Android\sdk-for-signature-android-master-2.4\samples\SignatureSDKExample\app\src\main\AndroidManifest.xml:30:9-33:20
+	android:label
+		ADDED from F:\OneDrive - Wacom AAD\SDKs\SignatureSDK\Android\sdk-for-signature-android-master-2.4\samples\SignatureSDKExample\app\src\main\AndroidManifest.xml:32:13-45
+	android:name
+		ADDED from F:\OneDrive - Wacom AAD\SDKs\SignatureSDK\Android\sdk-for-signature-android-master-2.4\samples\SignatureSDKExample\app\src\main\AndroidManifest.xml:31:13-47
+uses-sdk
+INJECTED from F:\OneDrive - Wacom AAD\SDKs\SignatureSDK\Android\sdk-for-signature-android-master-2.4\samples\SignatureSDKExample\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from F:\OneDrive - Wacom AAD\SDKs\SignatureSDK\Android\sdk-for-signature-android-master-2.4\samples\SignatureSDKExample\app\src\main\AndroidManifest.xml
+INJECTED from F:\OneDrive - Wacom AAD\SDKs\SignatureSDK\Android\sdk-for-signature-android-master-2.4\samples\SignatureSDKExample\app\src\main\AndroidManifest.xml
+MERGED from [signaturesdk_2.4.aar] C:\Users\togur\.gradle\caches\transforms-3\66d015444d9a3e65c89694a4486e8ca8\transformed\signaturesdk_2.4\AndroidManifest.xml:5:5-44
+MERGED from [signaturesdk_2.4.aar] C:\Users\togur\.gradle\caches\transforms-3\66d015444d9a3e65c89694a4486e8ca8\transformed\signaturesdk_2.4\AndroidManifest.xml:5:5-44
+MERGED from [will-sdk-1.8.4.aar] C:\Users\togur\.gradle\caches\transforms-3\8e82f78cbae4d5d82dc550cd83d6afca\transformed\will-sdk-1.8.4\AndroidManifest.xml:7:5-9:41
+MERGED from [will-sdk-1.8.4.aar] C:\Users\togur\.gradle\caches\transforms-3\8e82f78cbae4d5d82dc550cd83d6afca\transformed\will-sdk-1.8.4\AndroidManifest.xml:7:5-9:41
+MERGED from [com.android.support:appcompat-v7:28.0.0] C:\Users\togur\.gradle\caches\transforms-3\6708ce35ce1c5e0216914fe0d42561de\transformed\appcompat-v7-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:appcompat-v7:28.0.0] C:\Users\togur\.gradle\caches\transforms-3\6708ce35ce1c5e0216914fe0d42561de\transformed\appcompat-v7-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support.constraint:constraint-layout:1.0.2] C:\Users\togur\.gradle\caches\transforms-3\3ee4e9eff93751e9bc73250c0729f671\transformed\constraint-layout-1.0.2\AndroidManifest.xml:5:5-7:41
+MERGED from [com.android.support.constraint:constraint-layout:1.0.2] C:\Users\togur\.gradle\caches\transforms-3\3ee4e9eff93751e9bc73250c0729f671\transformed\constraint-layout-1.0.2\AndroidManifest.xml:5:5-7:41
+MERGED from [com.android.support:support-fragment:28.0.0] C:\Users\togur\.gradle\caches\transforms-3\54faa821fe2bf240f5cdc3c14d68f46b\transformed\support-fragment-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-fragment:28.0.0] C:\Users\togur\.gradle\caches\transforms-3\54faa821fe2bf240f5cdc3c14d68f46b\transformed\support-fragment-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:animated-vector-drawable:28.0.0] C:\Users\togur\.gradle\caches\transforms-3\cbe1a8092a6f73064b0fdc45459e61dd\transformed\animated-vector-drawable-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:animated-vector-drawable:28.0.0] C:\Users\togur\.gradle\caches\transforms-3\cbe1a8092a6f73064b0fdc45459e61dd\transformed\animated-vector-drawable-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-ui:28.0.0] C:\Users\togur\.gradle\caches\transforms-3\1be506f4ef056216451ae82ec72ea2a3\transformed\support-core-ui-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-ui:28.0.0] C:\Users\togur\.gradle\caches\transforms-3\1be506f4ef056216451ae82ec72ea2a3\transformed\support-core-ui-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-utils:28.0.0] C:\Users\togur\.gradle\caches\transforms-3\dc28677911487eb45c283059dcfd3e2b\transformed\support-core-utils-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-utils:28.0.0] C:\Users\togur\.gradle\caches\transforms-3\dc28677911487eb45c283059dcfd3e2b\transformed\support-core-utils-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:28.0.0] C:\Users\togur\.gradle\caches\transforms-3\81edb0f46e0f6e2367db6c541bc2f680\transformed\support-vector-drawable-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:28.0.0] C:\Users\togur\.gradle\caches\transforms-3\81edb0f46e0f6e2367db6c541bc2f680\transformed\support-vector-drawable-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:loader:28.0.0] C:\Users\togur\.gradle\caches\transforms-3\8266c036f705d7f6a74931900ec291bd\transformed\loader-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:loader:28.0.0] C:\Users\togur\.gradle\caches\transforms-3\8266c036f705d7f6a74931900ec291bd\transformed\loader-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:viewpager:28.0.0] C:\Users\togur\.gradle\caches\transforms-3\b59d03f3c2696bc6c48d0f5e558e1e19\transformed\viewpager-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:viewpager:28.0.0] C:\Users\togur\.gradle\caches\transforms-3\b59d03f3c2696bc6c48d0f5e558e1e19\transformed\viewpager-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:coordinatorlayout:28.0.0] C:\Users\togur\.gradle\caches\transforms-3\b16a61a76a8b9f60d169aaae4d70e651\transformed\coordinatorlayout-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:coordinatorlayout:28.0.0] C:\Users\togur\.gradle\caches\transforms-3\b16a61a76a8b9f60d169aaae4d70e651\transformed\coordinatorlayout-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:drawerlayout:28.0.0] C:\Users\togur\.gradle\caches\transforms-3\d49f4396f345e18b3f0ead039e9db922\transformed\drawerlayout-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:drawerlayout:28.0.0] C:\Users\togur\.gradle\caches\transforms-3\d49f4396f345e18b3f0ead039e9db922\transformed\drawerlayout-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:slidingpanelayout:28.0.0] C:\Users\togur\.gradle\caches\transforms-3\ca5117d7e01dbf6b6f15a8f942d11c6d\transformed\slidingpanelayout-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:slidingpanelayout:28.0.0] C:\Users\togur\.gradle\caches\transforms-3\ca5117d7e01dbf6b6f15a8f942d11c6d\transformed\slidingpanelayout-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:customview:28.0.0] C:\Users\togur\.gradle\caches\transforms-3\5b7bcc6f56c7026434744cd9d66301bd\transformed\customview-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:customview:28.0.0] C:\Users\togur\.gradle\caches\transforms-3\5b7bcc6f56c7026434744cd9d66301bd\transformed\customview-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:swiperefreshlayout:28.0.0] C:\Users\togur\.gradle\caches\transforms-3\66f880810b4d60a8a4cacd8df0af74ec\transformed\swiperefreshlayout-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:swiperefreshlayout:28.0.0] C:\Users\togur\.gradle\caches\transforms-3\66f880810b4d60a8a4cacd8df0af74ec\transformed\swiperefreshlayout-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:asynclayoutinflater:28.0.0] C:\Users\togur\.gradle\caches\transforms-3\7beec3b5d63792218cb3e2a4ece29809\transformed\asynclayoutinflater-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:asynclayoutinflater:28.0.0] C:\Users\togur\.gradle\caches\transforms-3\7beec3b5d63792218cb3e2a4ece29809\transformed\asynclayoutinflater-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-compat:28.0.0] C:\Users\togur\.gradle\caches\transforms-3\5b8da9f19eb3e14eed504567415fc3c7\transformed\support-compat-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-compat:28.0.0] C:\Users\togur\.gradle\caches\transforms-3\5b8da9f19eb3e14eed504567415fc3c7\transformed\support-compat-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\togur\.gradle\caches\transforms-3\b5003114398eb77be8451a26f2e39dc9\transformed\versionedparcelable-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:versionedparcelable:28.0.0] C:\Users\togur\.gradle\caches\transforms-3\b5003114398eb77be8451a26f2e39dc9\transformed\versionedparcelable-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cursoradapter:28.0.0] C:\Users\togur\.gradle\caches\transforms-3\b47af086abdce3aee884f9010b8e433e\transformed\cursoradapter-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cursoradapter:28.0.0] C:\Users\togur\.gradle\caches\transforms-3\b47af086abdce3aee884f9010b8e433e\transformed\cursoradapter-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:runtime:1.1.1] C:\Users\togur\.gradle\caches\transforms-3\0a5a9bf3e32773778ee98d5e34dc41f6\transformed\runtime-1.1.1\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:runtime:1.1.1] C:\Users\togur\.gradle\caches\transforms-3\0a5a9bf3e32773778ee98d5e34dc41f6\transformed\runtime-1.1.1\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:documentfile:28.0.0] C:\Users\togur\.gradle\caches\transforms-3\0dea718331a227809f6f3e33a93bdb9c\transformed\documentfile-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:documentfile:28.0.0] C:\Users\togur\.gradle\caches\transforms-3\0dea718331a227809f6f3e33a93bdb9c\transformed\documentfile-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:localbroadcastmanager:28.0.0] C:\Users\togur\.gradle\caches\transforms-3\651e5959f84e185fbe19dd17ae88c7ac\transformed\localbroadcastmanager-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:localbroadcastmanager:28.0.0] C:\Users\togur\.gradle\caches\transforms-3\651e5959f84e185fbe19dd17ae88c7ac\transformed\localbroadcastmanager-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:print:28.0.0] C:\Users\togur\.gradle\caches\transforms-3\f58b4bcfdcd6475730363187396dcc40\transformed\print-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:print:28.0.0] C:\Users\togur\.gradle\caches\transforms-3\f58b4bcfdcd6475730363187396dcc40\transformed\print-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:viewmodel:1.1.1] C:\Users\togur\.gradle\caches\transforms-3\acb9392c61eafbe7520087a88f50e9cf\transformed\viewmodel-1.1.1\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:viewmodel:1.1.1] C:\Users\togur\.gradle\caches\transforms-3\acb9392c61eafbe7520087a88f50e9cf\transformed\viewmodel-1.1.1\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata:1.1.1] C:\Users\togur\.gradle\caches\transforms-3\7f99853a275e4457fd478eaaf830cd13\transformed\livedata-1.1.1\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata:1.1.1] C:\Users\togur\.gradle\caches\transforms-3\7f99853a275e4457fd478eaaf830cd13\transformed\livedata-1.1.1\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata-core:1.1.1] C:\Users\togur\.gradle\caches\transforms-3\05a749bafc89d97eee1e22699fab7590\transformed\livedata-core-1.1.1\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata-core:1.1.1] C:\Users\togur\.gradle\caches\transforms-3\05a749bafc89d97eee1e22699fab7590\transformed\livedata-core-1.1.1\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.core:runtime:1.1.1] C:\Users\togur\.gradle\caches\transforms-3\73604a6b9cc87857e41e514d7de1a168\transformed\runtime-1.1.1\AndroidManifest.xml:20:5-44
+MERGED from [android.arch.core:runtime:1.1.1] C:\Users\togur\.gradle\caches\transforms-3\73604a6b9cc87857e41e514d7de1a168\transformed\runtime-1.1.1\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:interpolator:28.0.0] C:\Users\togur\.gradle\caches\transforms-3\ba539e09c842027d8f20c5174ac172d2\transformed\interpolator-28.0.0\AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:interpolator:28.0.0] C:\Users\togur\.gradle\caches\transforms-3\ba539e09c842027d8f20c5174ac172d2\transformed\interpolator-28.0.0\AndroidManifest.xml:20:5-44
+	android:targetSdkVersion
+		INJECTED from F:\OneDrive - Wacom AAD\SDKs\SignatureSDK\Android\sdk-for-signature-android-master-2.4\samples\SignatureSDKExample\app\src\main\AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from F:\OneDrive - Wacom AAD\SDKs\SignatureSDK\Android\sdk-for-signature-android-master-2.4\samples\SignatureSDKExample\app\src\main\AndroidManifest.xml
+activity#com.wacom.signature.sdk.activity.AboutSignatureSDKActivity
+ADDED from [signaturesdk_2.4.aar] C:\Users\togur\.gradle\caches\transforms-3\66d015444d9a3e65c89694a4486e8ca8\transformed\signaturesdk_2.4\AndroidManifest.xml:13:9-14:20
+	android:name
+		ADDED from [signaturesdk_2.4.aar] C:\Users\togur\.gradle\caches\transforms-3\66d015444d9a3e65c89694a4486e8ca8\transformed\signaturesdk_2.4\AndroidManifest.xml:13:19-92
+activity#com.wacom.signature.sdk.activity.DynamicCaptureActivity
+ADDED from [signaturesdk_2.4.aar] C:\Users\togur\.gradle\caches\transforms-3\66d015444d9a3e65c89694a4486e8ca8\transformed\signaturesdk_2.4\AndroidManifest.xml:15:9-19:20
+	android:configChanges
+		ADDED from [signaturesdk_2.4.aar] C:\Users\togur\.gradle\caches\transforms-3\66d015444d9a3e65c89694a4486e8ca8\transformed\signaturesdk_2.4\AndroidManifest.xml:17:13-74
+	android:theme
+		ADDED from [signaturesdk_2.4.aar] C:\Users\togur\.gradle\caches\transforms-3\66d015444d9a3e65c89694a4486e8ca8\transformed\signaturesdk_2.4\AndroidManifest.xml:18:13-50
+	android:name
+		ADDED from [signaturesdk_2.4.aar] C:\Users\togur\.gradle\caches\transforms-3\66d015444d9a3e65c89694a4486e8ca8\transformed\signaturesdk_2.4\AndroidManifest.xml:16:13-83
+activity#com.wacom.signature.sdk.activity.ExpiredActivity
+ADDED from [signaturesdk_2.4.aar] C:\Users\togur\.gradle\caches\transforms-3\66d015444d9a3e65c89694a4486e8ca8\transformed\signaturesdk_2.4\AndroidManifest.xml:20:9-23:20
+	android:theme
+		ADDED from [signaturesdk_2.4.aar] C:\Users\togur\.gradle\caches\transforms-3\66d015444d9a3e65c89694a4486e8ca8\transformed\signaturesdk_2.4\AndroidManifest.xml:22:13-67
+	android:name
+		ADDED from [signaturesdk_2.4.aar] C:\Users\togur\.gradle\caches\transforms-3\66d015444d9a3e65c89694a4486e8ca8\transformed\signaturesdk_2.4\AndroidManifest.xml:21:13-76
+uses-permission#android.permission.READ_EXTERNAL_STORAGE
+IMPLIED from F:\OneDrive - Wacom AAD\SDKs\SignatureSDK\Android\sdk-for-signature-android-master-2.4\samples\SignatureSDKExample\app\src\main\AndroidManifest.xml:2:1-36:12 reason: com.wacom.signature.sdk requested WRITE_EXTERNAL_STORAGE

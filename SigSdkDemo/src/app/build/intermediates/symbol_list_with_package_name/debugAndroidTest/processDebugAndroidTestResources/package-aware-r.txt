@@ -1,0 +1,2 @@
+com.wacom.signature.sdk.example.test
+string app_name

@@ -1,0 +1,1 @@
+com.wacom.signature.sdk.example.test:string/app_name = 0x7f010000

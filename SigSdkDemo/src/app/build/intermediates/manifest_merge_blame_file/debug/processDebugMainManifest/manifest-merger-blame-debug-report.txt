@@ -1,0 +1,94 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.wacom.signature.sdk.example"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="19"
+9        android:targetSdkVersion="34" />
+10
+11    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+11-->F:\OneDrive - Wacom AAD\SDKs\SignatureSDK\Android\sdk-for-signature-android-master-2.4\samples\SignatureSDKExample\app\src\main\AndroidManifest.xml:6:5-80
+11-->F:\OneDrive - Wacom AAD\SDKs\SignatureSDK\Android\sdk-for-signature-android-master-2.4\samples\SignatureSDKExample\app\src\main\AndroidManifest.xml:6:22-78
+12    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+13
+14    <application
+14-->F:\OneDrive - Wacom AAD\SDKs\SignatureSDK\Android\sdk-for-signature-android-master-2.4\samples\SignatureSDKExample\app\src\main\AndroidManifest.xml:8:5-34:19
+15        android:allowBackup="true"
+15-->F:\OneDrive - Wacom AAD\SDKs\SignatureSDK\Android\sdk-for-signature-android-master-2.4\samples\SignatureSDKExample\app\src\main\AndroidManifest.xml:9:9-35
+16        android:appComponentFactory="android.support.v4.app.CoreComponentFactory"
+16-->[com.android.support:support-compat:28.0.0] C:\Users\togur\.gradle\caches\transforms-3\5b8da9f19eb3e14eed504567415fc3c7\transformed\support-compat-28.0.0\AndroidManifest.xml:22:18-91
+17        android:debuggable="true"
+18        android:extractNativeLibs="true"
+19        android:icon="@drawable/ic_launcher"
+19-->F:\OneDrive - Wacom AAD\SDKs\SignatureSDK\Android\sdk-for-signature-android-master-2.4\samples\SignatureSDKExample\app\src\main\AndroidManifest.xml:10:9-45
+20        android:label="@string/app_name"
+20-->F:\OneDrive - Wacom AAD\SDKs\SignatureSDK\Android\sdk-for-signature-android-master-2.4\samples\SignatureSDKExample\app\src\main\AndroidManifest.xml:11:9-41
+21        android:supportsRtl="true"
+21-->[signaturesdk_2.4.aar] C:\Users\togur\.gradle\caches\transforms-3\66d015444d9a3e65c89694a4486e8ca8\transformed\signaturesdk_2.4\AndroidManifest.xml:12:9-35
+22        android:theme="@style/AppTheme" >
+22-->F:\OneDrive - Wacom AAD\SDKs\SignatureSDK\Android\sdk-for-signature-android-master-2.4\samples\SignatureSDKExample\app\src\main\AndroidManifest.xml:12:9-40
+23        <activity
+23-->F:\OneDrive - Wacom AAD\SDKs\SignatureSDK\Android\sdk-for-signature-android-master-2.4\samples\SignatureSDKExample\app\src\main\AndroidManifest.xml:13:9-21:20
+24            android:name="com.wacom.signature.sdk.example.FormListActivity"
+24-->F:\OneDrive - Wacom AAD\SDKs\SignatureSDK\Android\sdk-for-signature-android-master-2.4\samples\SignatureSDKExample\app\src\main\AndroidManifest.xml:14:13-45
+25            android:exported="true"
+25-->F:\OneDrive - Wacom AAD\SDKs\SignatureSDK\Android\sdk-for-signature-android-master-2.4\samples\SignatureSDKExample\app\src\main\AndroidManifest.xml:16:13-36
+26            android:label="@string/app_name" >
+26-->F:\OneDrive - Wacom AAD\SDKs\SignatureSDK\Android\sdk-for-signature-android-master-2.4\samples\SignatureSDKExample\app\src\main\AndroidManifest.xml:15:13-45
+27            <intent-filter>
+27-->F:\OneDrive - Wacom AAD\SDKs\SignatureSDK\Android\sdk-for-signature-android-master-2.4\samples\SignatureSDKExample\app\src\main\AndroidManifest.xml:17:13-20:29
+28                <action android:name="android.intent.action.MAIN" />
+28-->F:\OneDrive - Wacom AAD\SDKs\SignatureSDK\Android\sdk-for-signature-android-master-2.4\samples\SignatureSDKExample\app\src\main\AndroidManifest.xml:18:17-69
+28-->F:\OneDrive - Wacom AAD\SDKs\SignatureSDK\Android\sdk-for-signature-android-master-2.4\samples\SignatureSDKExample\app\src\main\AndroidManifest.xml:18:25-66
+29
+30                <category android:name="android.intent.category.LAUNCHER" />
+30-->F:\OneDrive - Wacom AAD\SDKs\SignatureSDK\Android\sdk-for-signature-android-master-2.4\samples\SignatureSDKExample\app\src\main\AndroidManifest.xml:19:17-77
+30-->F:\OneDrive - Wacom AAD\SDKs\SignatureSDK\Android\sdk-for-signature-android-master-2.4\samples\SignatureSDKExample\app\src\main\AndroidManifest.xml:19:27-74
+31            </intent-filter>
+32        </activity>
+33        <activity
+33-->F:\OneDrive - Wacom AAD\SDKs\SignatureSDK\Android\sdk-for-signature-android-master-2.4\samples\SignatureSDKExample\app\src\main\AndroidManifest.xml:22:9-25:20
+34            android:name="com.wacom.signature.sdk.example.SettingsActivity"
+34-->F:\OneDrive - Wacom AAD\SDKs\SignatureSDK\Android\sdk-for-signature-android-master-2.4\samples\SignatureSDKExample\app\src\main\AndroidManifest.xml:23:13-45
+35            android:label="@string/app_name" >
+35-->F:\OneDrive - Wacom AAD\SDKs\SignatureSDK\Android\sdk-for-signature-android-master-2.4\samples\SignatureSDKExample\app\src\main\AndroidManifest.xml:24:13-45
+36        </activity>
+37        <activity
+37-->F:\OneDrive - Wacom AAD\SDKs\SignatureSDK\Android\sdk-for-signature-android-master-2.4\samples\SignatureSDKExample\app\src\main\AndroidManifest.xml:26:9-29:20
+38            android:name="com.wacom.signature.sdk.example.FormViewerActivity"
+38-->F:\OneDrive - Wacom AAD\SDKs\SignatureSDK\Android\sdk-for-signature-android-master-2.4\samples\SignatureSDKExample\app\src\main\AndroidManifest.xml:27:13-47
+39            android:label="@string/app_name" >
+39-->F:\OneDrive - Wacom AAD\SDKs\SignatureSDK\Android\sdk-for-signature-android-master-2.4\samples\SignatureSDKExample\app\src\main\AndroidManifest.xml:28:13-45
+40        </activity>
+41        <activity
+41-->F:\OneDrive - Wacom AAD\SDKs\SignatureSDK\Android\sdk-for-signature-android-master-2.4\samples\SignatureSDKExample\app\src\main\AndroidManifest.xml:30:9-33:20
+42            android:name="com.wacom.signature.sdk.example.TextEditorActivity"
+42-->F:\OneDrive - Wacom AAD\SDKs\SignatureSDK\Android\sdk-for-signature-android-master-2.4\samples\SignatureSDKExample\app\src\main\AndroidManifest.xml:31:13-47
+43            android:label="@string/app_name" >
+43-->F:\OneDrive - Wacom AAD\SDKs\SignatureSDK\Android\sdk-for-signature-android-master-2.4\samples\SignatureSDKExample\app\src\main\AndroidManifest.xml:32:13-45
+44        </activity>
+45        <activity android:name="com.wacom.signature.sdk.activity.AboutSignatureSDKActivity" >
+45-->[signaturesdk_2.4.aar] C:\Users\togur\.gradle\caches\transforms-3\66d015444d9a3e65c89694a4486e8ca8\transformed\signaturesdk_2.4\AndroidManifest.xml:13:9-14:20
+45-->[signaturesdk_2.4.aar] C:\Users\togur\.gradle\caches\transforms-3\66d015444d9a3e65c89694a4486e8ca8\transformed\signaturesdk_2.4\AndroidManifest.xml:13:19-92
+46        </activity>
+47        <activity
+47-->[signaturesdk_2.4.aar] C:\Users\togur\.gradle\caches\transforms-3\66d015444d9a3e65c89694a4486e8ca8\transformed\signaturesdk_2.4\AndroidManifest.xml:15:9-19:20
+48            android:name="com.wacom.signature.sdk.activity.DynamicCaptureActivity"
+48-->[signaturesdk_2.4.aar] C:\Users\togur\.gradle\caches\transforms-3\66d015444d9a3e65c89694a4486e8ca8\transformed\signaturesdk_2.4\AndroidManifest.xml:16:13-83
+49            android:configChanges="orientation|keyboardHidden|screenSize"
+49-->[signaturesdk_2.4.aar] C:\Users\togur\.gradle\caches\transforms-3\66d015444d9a3e65c89694a4486e8ca8\transformed\signaturesdk_2.4\AndroidManifest.xml:17:13-74
+50            android:theme="@style/Theme.DoNotDim" >
+50-->[signaturesdk_2.4.aar] C:\Users\togur\.gradle\caches\transforms-3\66d015444d9a3e65c89694a4486e8ca8\transformed\signaturesdk_2.4\AndroidManifest.xml:18:13-50
+51        </activity>
+52        <activity
+52-->[signaturesdk_2.4.aar] C:\Users\togur\.gradle\caches\transforms-3\66d015444d9a3e65c89694a4486e8ca8\transformed\signaturesdk_2.4\AndroidManifest.xml:20:9-23:20
+53            android:name="com.wacom.signature.sdk.activity.ExpiredActivity"
+53-->[signaturesdk_2.4.aar] C:\Users\togur\.gradle\caches\transforms-3\66d015444d9a3e65c89694a4486e8ca8\transformed\signaturesdk_2.4\AndroidManifest.xml:21:13-76
+54            android:theme="@android:style/Theme.Holo.Light.Dialog" >
+54-->[signaturesdk_2.4.aar] C:\Users\togur\.gradle\caches\transforms-3\66d015444d9a3e65c89694a4486e8ca8\transformed\signaturesdk_2.4\AndroidManifest.xml:22:13-67
+55        </activity>
+56    </application>
+57
+58</manifest>
