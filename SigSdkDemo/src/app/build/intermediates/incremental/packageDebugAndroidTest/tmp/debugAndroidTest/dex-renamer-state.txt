@@ -1,4 +1,0 @@
-#Mon Jul 08 17:03:59 JST 2024
-base.0=F\:\\OneDrive - Wacom AAD\\SDKs\\SignatureSDK\\Android\\sdk-for-signature-android-master-2.4\\samples\\SignatureSDKExample\\app\\build\\intermediates\\dex\\debugAndroidTest\\mergeDexDebugAndroidTest\\classes.dex
-path.0=classes.dex
-renamed.0=classes.dex
